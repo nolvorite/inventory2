@@ -29,6 +29,13 @@ Route::group(['middleware' => 'auth'], function () {
         'transactions/transfer' => 'TransferController',
         'methods' => 'MethodController',
     ]);
+
+    Route::group(['prefix' => 'employees'], function(){
+
+        Route::get('/', ['as' => 'employees.index', 'uses' => 'EmployeeController@index']);
+        Route::get('/assign', ['as' => 'employees.assign', 'uses' => 'EmployeeController@assign']);
+
+    });
     
     Route::resource('transactions', 'TransactionController')->except(['create', 'show']);
     Route::get('transactions/stats/{year?}/{month?}/{day?}', ['as' => 'transactions.stats', 'uses' => 'TransactionController@stats']);

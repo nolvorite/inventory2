@@ -23,7 +23,6 @@ class CreateProductsTableMigration extends Migration
             $table->unsignedinteger('stock_defective')->default(0);
             $table->timestamps();
             $table->softDeletes();
-            $table->foreign('product_category_id')->references('id')->on('product_categories');
         });
     }
 

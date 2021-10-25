@@ -1,4 +1,4 @@
-@extends('layouts.app', ['page' => 'List of Categories', 'pageSlug' => 'categories', 'section' => 'inventory'])
+@extends('layouts.app', ['page' => 'Product Types', 'pageSlug' => 'categories', 'section' => 'inventory'])
 
 @section('content')
     <div class="row">
@@ -7,10 +7,10 @@
                 <div class="card-header">
                     <div class="row">
                         <div class="col-8">
-                            <h4 class="card-title">Categories</h4>
+                            <h4 class="card-title">Product Types</h4>
                         </div>
                         <div class="col-4 text-right">
-                            <a href="{{ route('categories.create') }}" class="btn btn-sm btn-primary">New Category</a>
+                            <a href="{{ route('categories.create') }}" class="btn btn-sm btn-primary">New Product Type</a>
                         </div>
                     </div>
                 </div>
@@ -21,7 +21,7 @@
                         <table class="table tablesorter " id="">
                             <thead class=" text-primary">
                                 <th scope="col">Name</th>
-                                <th scope="col">products</th>
+                                <th scope="col">Products</th>
                                 <th scope="col">Total Stock</th>
                                 <th scope="col">Defective Stock</th>
                                 <th scope="col">Average Price of Product</th>

@@ -22,8 +22,7 @@ class CreateTransfersTable extends Migration
             $table->decimal('received_amount', 10, 2);
             $table->string('reference')->nullable();
             $table->timestamps();
-            $table->foreign('sender_method_id')->references('id')->on('payment_methods');
-            $table->foreign('receiver_method_id')->references('id')->on('payment_methods');
+ 
         });
     }
 

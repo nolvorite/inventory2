@@ -19,8 +19,7 @@ class CreateReceivedProductsTable extends Migration
             $table->unsignedBigInteger('product_id');
             $table->integer('stock');
             $table->integer('stock_defective');
-            $table->foreign('receipt_id')->references('id')->on('receipts')->onDelete('cascade');
-            $table->foreign('product_id')->references('id')->on('products');
+
             $table->timestamps();
         });
     }
