@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use App\Product;
 use App\ProductCategory;
 use App\Http\Requests\ProductRequest;
+use Illuminate\Support\Facades\DB;
+
+use Carbon\Carbon;
+
 
 class ProductController extends Controller
 {
@@ -13,9 +17,57 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function __construct(){
+        $this->categories = ProductCategory::select(DB::Raw('*, CONCAT("[",UPPER(company_name),"] ", name," (",product_status,")") AS name '));
+    }
+
+    public function switch_status(){
+        $product = ProductCategory::findOrFail(request()->category_id);
+
+        $currentStatus = $product->product_status;
+
+        $newStatus = $currentStatus === 'active' ? 'inactive' : 'active';
+
+        $product->update(['product_status' => $newStatus]);
+
+        return redirect()->route('categories.index');
+    }
+
     public function index()
     {
-        $products = Product::paginate(25);
+        $products = new Product;
+
+        $products = $products->catJoin();
+
+        if(request()->get('filter') !== null){
+            $filter = request()->get('filter');
+            switch($filter){
+                case "robi":
+                case "airtel":
+                    $products = Product::catJoin()->where('products.company_name',$filter);
+                break;
+                default:
+                    return redirect()
+                    ->route('products.index');
+                break;
+            }
+        }
+
+        if(request()->get('category_id') !== null){
+            $categoryId = request()->get('category_id');
+            $products = $products->where('product_category_id',$categoryId);
+        }
+
+        $products = $products->orderBy(DB::Raw('product_categories.name'))->paginate(25);
+
+        $products = $products->map(function($product){
+
+            $product->buying_date = Carbon::createFromFormat('Y-m-d H:i:s',$product->buying_date)->format('Y-M-d');
+
+            return $product;
+
+        });
 
         return view('inventory.products.index', compact('products'));
     }
@@ -27,7 +79,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $categories = ProductCategory::all();
+        $categories = $this->categories->get();
 
         return view('inventory.products.create', compact('categories'));
     }
@@ -41,7 +93,12 @@ class ProductController extends Controller
      */
     public function store(ProductRequest $request, Product $model)
     {
-        $model->create($request->all());
+
+        $dataToSubmit = (array) $request->all();
+
+        $dataToSubmit['company_name'] = $dataToSubmit['company_name'] === 'robi' ? 'robi' : 'airtel';
+
+        $model->create($dataToSubmit);
 
         return redirect()
             ->route('products.index')
@@ -71,7 +128,7 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        $categories = ProductCategory::all();
+        $categories = $this->categories->get();
 
         return view('inventory.products.edit', compact('product', 'categories'));
     }
@@ -85,7 +142,11 @@ class ProductController extends Controller
      */
     public function update(ProductRequest $request, Product $product)
     {
-        $product->update($request->all());
+        $dataToSubmit = (array) $request->all();
+
+        $dataToSubmit['company_name'] = $dataToSubmit['company_name'] === 'robi' ? 'robi' : 'airtel';
+
+        $product->update($dataToSubmit);
 
         return redirect()
             ->route('products.index')

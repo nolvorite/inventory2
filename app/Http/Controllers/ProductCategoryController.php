@@ -15,7 +15,24 @@ class ProductCategoryController extends Controller
      */
     public function index(ProductCategory $model)
     {
+
         $categories = ProductCategory::paginate(25);
+
+        if(request()->get('filter') !== null){
+            $filter = request()->get('filter');
+            switch($filter){
+                case "robi":
+                case "airtel":
+                    $categories = ProductCategory::where('company_name',$filter)->paginate(25);
+                break;
+                default:
+                    return redirect()
+                    ->route('categories.index');
+                break;
+            }
+        }
+
+        
 
         return view('inventory.categories.index', compact('categories'));
     }
@@ -38,7 +55,12 @@ class ProductCategoryController extends Controller
      */
     public function store(ProductCategoryRequest $request, ProductCategory $category)
     {
-        $category->create($request->all());
+
+        $dataToSubmit = (array) $request->all();
+
+        $dataToSubmit['product_status'] = $dataToSubmit['product_status'] === 'active' ? 'active' : 'inactive';
+
+        $category->create($dataToSubmit);
 
         return redirect()
             ->route('categories.index')

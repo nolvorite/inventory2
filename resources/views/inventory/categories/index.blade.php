@@ -7,7 +7,7 @@
                 <div class="card-header">
                     <div class="row">
                         <div class="col-8">
-                            <h4 class="card-title">Product Types</h4>
+                            <h4 class="card-title">Product Types <a href='{{ route('categories.index') }}?filter=robi' class='btn btn-sm btn-dark'>robi</a><a href='{{ route('categories.index') }}?filter=airtel' class='btn btn-sm btn-dark'>airtel</a><a href='{{ route('categories.index') }}' class='btn btn-sm btn-dark'>all</a></h4>
                         </div>
                         <div class="col-4 text-right">
                             <a href="{{ route('categories.create') }}" class="btn btn-sm btn-primary">New Product Type</a>
@@ -20,21 +20,24 @@
                     <div class="">
                         <table class="table tablesorter " id="">
                             <thead class=" text-primary">
+                                <th scope="col">Company</th>
                                 <th scope="col">Name</th>
-                                <th scope="col">Products</th>
-                                <th scope="col">Total Stock</th>
-                                <th scope="col">Defective Stock</th>
-                                <th scope="col">Average Price of Product</th>
+                                <th scope="col">Status</th>
+                                <!-- <th scope="col">Defective Stock</th> -->
                                 <th scope="col"></th>
                             </thead>
                             <tbody>
                                 @foreach ($categories as $category)
                                     <tr>
+                                        <td>{{ $category->company_name }}</td>
                                         <td>{{ $category->name }}</td>
-                                        <td>{{ count($category->products) }}</td>
-                                        <td>{{ $category->products->sum('stock') }}</td>
-                                        <td>{{ $category->products->sum('stock_defective') }}</td>
-                                        <td>{{ format_money($category->products->avg('price')) }}</td>
+                                        <td>
+
+                                            <input class='toggles' type="checkbox" url='{{ route('products.switch_status') }}?category_id={{ $category->id }}' data-width="100" data-onstyle=success {{ $category->product_status === 'active' ? ' checked ' : '' }} data-toggle="toggle" data-size="xs">
+
+                                            </td>
+                                        <!-- <td>{{ $category->products->sum('stock_defective') }}</td> -->
+                   
                                         <td class="td-actions text-right">
                                             <a href="{{ route('categories.show', $category) }}" class="btn btn-link" data-toggle="tooltip" data-placement="bottom" title="More Details">
                                                 <i class="tim-icons icon-zoom-split"></i>
@@ -65,3 +68,15 @@
         </div>
     </div>
 @endsection
+
+@push('js')
+    <script>
+        $('.toggles').bootstrapToggle({
+            on: 'active',
+            off: 'inactive'
+        }).on('change', function(){
+            var url = $(this).attr('url');
+            location.href = url;
+        });
+    </script>
+@endpush

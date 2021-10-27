@@ -7,7 +7,8 @@
                 <div class="card-header">
                     <div class="row">
                         <div class="col-8">
-                            <h4 class="card-title">Products</h4>
+                            <h4 class="card-title">Products <a href='{{ route('products.index') }}?filter=robi' class='btn btn-sm btn-dark'>robi</a><a href='{{ route('products.index') }}?filter=airtel' class='btn btn-sm btn-dark'>airtel</a><a href='{{ route('products.index') }}' class='btn btn-sm btn-dark'>all</a></h4>
+
                         </div>
                         <div class="col-4 text-right">
                             <a href="{{ route('products.create') }}" class="btn btn-sm btn-primary">New product</a>
@@ -20,23 +21,29 @@
                     <div class="">
                         <table class="table tablesorter " id="">
                             <thead class=" text-primary">
-                                <th scope="col">Category</th>
-                                <th scope="col">Product</th>
-                                <th scope="col">Base Price</th>
+                                <th scope="col">Company Name</th>
+                                <th scope="col">Product Name</th>
                                 <th scope="col">Stock</th>
-                                <th scope="col">Faulty</th>
-                                <th scope="col">Total Sold</th>
+                                <th scope="col">Buy Price</th>
+                                <th scope="col">Buying Date</th>
+
                                 <th scope="col"></th>
                             </thead>
                             <tbody>
                                 @foreach ($products as $product)
                                     <tr>
-                                        <td><a href="{{ route('categories.show', $product->category) }}">{{ $product->category->name }}</a></td>
-                                        <td>{{ $product->name }}</td>
-                                        <td>{{ format_money($product->price) }}</td>
-                                        <td>{{ $product->stock }}</td>
-                                        <td>{{ $product->stock_defective }}</td>
-                                        <td>{{ $product->solds->sum('qty') }}</td>
+
+
+                                        <td>{{ $product->company_name }}</td>
+
+                                        <td><a href='?category_id={{ $product->category->id }}'>{{ $product->category->name }}</a></td>
+
+                                        <td width='1%'>{{ $product->stock }}</td>
+
+                                        <td>{{ $product->price }}</td>
+
+                                        <td>{{ $product->buying_date }}</td>
+ 
                                         <td class="td-actions text-right">
                                             <a href="{{ route('products.show', $product) }}" class="btn btn-link" data-toggle="tooltip" data-placement="bottom" title="More Details">
                                                 <i class="tim-icons icon-zoom-split"></i>
@@ -58,12 +65,9 @@
                         </table>
                     </div>
                 </div>
-                <div class="card-footer py-4">
-                    <nav class="d-flex justify-content-end">
-                        {{ $products->links() }}
-                    </nav>
-                </div>
+                
             </div>
         </div>
     </div>
 @endsection
+

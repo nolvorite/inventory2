@@ -16,52 +16,61 @@
                         </div>
                     </div>
                     <div class="card-body">
+                        @include('alerts.success')
                         <form method="post" action="{{ route('products.store') }}" autocomplete="off">
                             @csrf
-
                             <h6 class="heading-small text-muted mb-4">Product Information</h6>
+
+
+
                             <div class="pl-lg-4">
-                                <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
-                                    <label class="form-control-label" for="input-name">Name</label>
-                                    <input type="text" name="name" id="input-name" class="form-control form-control-alternative{{ $errors->has('name') ? ' is-invalid' : '' }}" placeholder="Name" value="{{ old('name') }}" required autofocus>
-                                    @include('alerts.feedback', ['field' => 'name'])
-                                </div>
+
+
+                                <div class="form-group">
+                                <label class="form-control-label" for="input-category-status">Company</label>
+                                <select class="form-control" name="company_name">
+                                    <option value="robi">Robi</option>
+                                    <option value="airtel">Airtel</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group{{ $errors->has('product_category_id') ? ' has-danger' : '' }}">
+                                <label class="form-control-label" for="input-name">Product Type</label>
+                                <select name="product_category_id" id="input-category" class="form-select form-control-alternative{{ $errors->has('name') ? ' is-invalid' : '' }}" required>
+                                    @foreach ($categories as $category)
+                                        @if($category['id'] == old('document'))
+                                            <option value="{{$category['id']}}" selected>{{$category['name']}}</option>
+                                        @else
+                                            <option value="{{$category['id']}}">{{$category['name']}}</option>
+                                        @endif
+                                    @endforeach
+                                </select>
+                                @include('alerts.feedback', ['field' => 'product_category_id'])
+                            </div>
+
+                            <div class="form-group{{ $errors->has('product_quantity') ? ' has-danger' : '' }}">
+                                <label class="form-control-label" for="product_quantity">Quantity</label>
+                                <input type="text" name="product_quantity" id="product_quantity" class="form-control form-control-alternative{{ $errors->has('product_quantity') ? ' is-invalid' : '' }}" placeholder="Describe how many quantity is contained in one stock." value="{{ old('product_quantity') }}" required>
+
+                                @include('alerts.feedback', ['field' => 'product_quantity'])
+                            </div>
+
+                                <input type="hidden" name="name" value="/">
 
                                 <div class="form-group{{ $errors->has('buying_date') ? ' has-danger' : '' }}">
                                     <label class="form-control-label" for="buying_date">Buying Date</label>
-                                    <input type="text" name="name" id="buying_date" class="form-control form-control-alternative{{ $errors->has('buying_date') ? ' is-invalid' : '' }}" placeholder="Buying Date" value="{{ old('buying_date') }}" required>
+                                    <input type="text" name="buying_date" id="buying_date" class="form-control form-control-alternative{{ $errors->has('buying_date') ? ' is-invalid' : '' }}" placeholder="Buying Date" value="{{ old('buying_date') }}" required>
 
                                     @include('alerts.feedback', ['field' => 'buying_date'])
                                 </div>
 
-                                <div class="form-group{{ $errors->has('product_quantity') ? ' has-danger' : '' }}">
-                                    <label class="form-control-label" for="product_quantity">Buying Date</label>
-                                    <input type="text" name="name" id="product_quantity" class="form-control form-control-alternative{{ $errors->has('product_quantity') ? ' is-invalid' : '' }}" placeholder="Describe how many quantity is contained in one stock." value="{{ old('product_quantity') }}" required>
+                                
 
-                                    @include('alerts.feedback', ['field' => 'product_quantity'])
-                                </div>
+                                
 
-                                <div class="form-group{{ $errors->has('product_category_id') ? ' has-danger' : '' }}">
-                                    <label class="form-control-label" for="input-name">Product Type</label>
-                                    <select name="product_category_id" id="input-category" class="form-select form-control-alternative{{ $errors->has('name') ? ' is-invalid' : '' }}" required>
-                                        @foreach ($categories as $category)
-                                            @if($category['id'] == old('document'))
-                                                <option value="{{$category['id']}}" selected>{{$category['name']}}</option>
-                                            @else
-                                                <option value="{{$category['id']}}">{{$category['name']}}</option>
-                                            @endif
-                                        @endforeach
-                                    </select>
-                                    @include('alerts.feedback', ['field' => 'product_category_id'])
-                                </div>
+                                <input type="hidden" name="description" value=" ">
 
 
-
-                                <div class="form-group{{ $errors->has('description') ? ' has-danger' : '' }}">
-                                    <label class="form-control-label" for="input-description">Description</label>
-                                    <input type="text" name="description" id="input-description" class="form-control form-control-alternative" placeholder="Description" value="{{ old('description') }}" required>
-                                    @include('alerts.feedback', ['field' => 'description'])
-                                </div>
                                 <div class="row">
                                     <div class="col-md-4">                                    
                                         <div class="form-group{{ $errors->has('stock') ? ' has-danger' : '' }}">
@@ -70,7 +79,7 @@
                                             @include('alerts.feedback', ['field' => 'stock'])
                                         </div>
                                     </div>    
-                                    <input type="hidden" name="stock_defective" id="input-stock_defective" class="form-control form-control-alternative"  value="0" required>                        
+                                    <input type="hidden" name="stock_defective" id="input-stock_defective" class="form-control form-control-alternative"  value="0">                        
                                     <!--<div class="col-4">                                    
                                         <div class="form-group{{ $errors->has('stock_defective') ? ' has-danger' : '' }}">
                                             <label class="form-control-label" for="input-stock_defective">Defective Stock</label>
@@ -81,14 +90,14 @@
                                     <div class="col-md-4">                                    
                                         <div class="form-group{{ $errors->has('price') ? ' has-danger' : '' }}">
                                             <label class="form-control-label" for="input-price">Buying Price</label>
-                                            <input type="number" step=".01" name="price" id="input-price" class="form-control form-control-alternative" placeholder="Price" value="{{ old('price') }}" required>
+                                            <input type="number" step="1" name="price" id="input-price" class="form-control form-control-alternative" placeholder="Price" value="{{ old('price') }}" required>
                                             @include('alerts.feedback', ['field' => 'price'])
                                         </div>
                                     </div>
                                     <div class="col-md-4">                                    
-                                        <div class="form-group{{ $errors->has('price') ? ' has-danger' : '' }}">
-                                            <label class="form-control-label" for="input-price">Selling Price</label>
-                                            <input type="number" step=".01" name="price" id="input-price" class="form-control form-control-alternative" placeholder="Price" value="{{ old('price') }}" required>
+                                        <div class="form-group{{ $errors->has('selling_price') ? ' has-danger' : '' }}">
+                                            <label class="form-control-label" for="input-selling-price">Selling Price</label>
+                                            <input type="number" step="1" name="selling_price" id="input-selling-price" class="form-control form-control-alternative" placeholder="Price" value="{{ old('selling_price') }}" required>
                                             @include('alerts.feedback', ['field' => 'selling_price'])
                                         </div>
                                     </div> 
@@ -108,8 +117,12 @@
 
 @push('js')
     <script>
-        new SlimSelect({
+        select = new SlimSelect({
             select: '.form-select'
+            ,
+            afterOpen: function(){
+                select.search($("select[name=company_name]").val())
+            }
         })
 
         $("#buying_date").datetimepicker({timePicker:true});

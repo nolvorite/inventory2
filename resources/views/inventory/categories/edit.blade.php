@@ -28,6 +28,26 @@
                                     @include('alerts.feedback', ['field' => 'name'])
                                 </div>
 
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-category-status">Company</label>
+                                    <select class="form-control" name="company_name">
+                                        <option value="robi" {{ $category->company_name === 'robi' ? 'selected' : ''  }}>Robi</option>
+                                        <option value="airtel" {{ $category->company_name === 'airtel' ? 'selected' : ''  }}>Airtel</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-category-status">Category Status</label>
+                                    <select class="form-control" name="category_status">
+                                        <option value="inactive" {{ $category->product_status === 'inactive' ? 'selected' : ''  }}>Inactive</option>
+                                        <option value="active" {{ $category->product_status === 'active' ? 'selected' : ''  }} >Active</option>
+                                        
+                                    </select>
+ 
+                                </div>
+
+                                
+
 
                                 <div class="text-center">
                                     <button type="submit" class="btn btn-success mt-4">Save</button>

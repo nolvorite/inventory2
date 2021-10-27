@@ -21,7 +21,6 @@ Route::get('/', 'HomeController@index')->name('home')->middleware('auth');
 Route::group(['middleware' => 'auth'], function () {
 
     Route::resources([
-        'users' => 'UserController',
         'providers' => 'ProviderController',
         'inventory/products' => 'ProductController',
         'clients' => 'ClientController',
@@ -30,12 +29,7 @@ Route::group(['middleware' => 'auth'], function () {
         'methods' => 'MethodController',
     ]);
 
-    Route::group(['prefix' => 'employees'], function(){
-
-        Route::get('/', ['as' => 'employees.index', 'uses' => 'EmployeeController@index']);
-        Route::get('/assign', ['as' => 'employees.assign', 'uses' => 'EmployeeController@assign']);
-
-    });
+    Route::get('/switch_status', ['as' => 'products.switch_status', 'uses' => 'ProductController@switch_status']);
     
     Route::resource('transactions', 'TransactionController')->except(['create', 'show']);
     Route::get('transactions/stats/{year?}/{month?}/{day?}', ['as' => 'transactions.stats', 'uses' => 'TransactionController@stats']);

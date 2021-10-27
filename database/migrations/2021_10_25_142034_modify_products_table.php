@@ -17,6 +17,7 @@ class ModifyProductsTable extends Migration
             $table->datetime('buying_date');
             $table->string('product_quantity');
             $table->float('selling_price');
+            $table->string('company_name')->default('robi');
         });
     }
 
@@ -28,11 +29,10 @@ class ModifyProductsTable extends Migration
     public function down()
     {
         Schema::table('products', function (Blueprint $table) {
-            $table->dropColumn('buying_date');
-            $table->dropColumn('product_quantity');
-            $table->dropColumn('buying_price');
-            $table->dropColumn('selling_price');
-            
+            $table->dropIfExists('buying_date');
+            $table->dropIfExists('product_quantity');
+            $table->dropIfExists('company_name');
+            $table->dropIfExists('selling_price');
         });
     }
 }

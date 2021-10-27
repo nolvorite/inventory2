@@ -22,6 +22,10 @@
         <!-- CSS -->
         <link href="{{ asset('assets') }}/css/white-dashboard.css?v=1.0.0" rel="stylesheet" />
         <link href="{{ asset('assets') }}/css/theme.css" rel="stylesheet" />
+
+        <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
+
+
     </head>
     <body class="white-content {{ $class ?? '' }}">
         @auth()
@@ -176,7 +180,16 @@
             });
         </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/slim-select/1.23.0/slimselect.min.js"></script>
-
+        <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
+        <style type="text/css">
+            .toggle-on {
+                color: #000!important;
+                top: 2px;
+            }
+            form.inline-block {
+                display: inline!Important;
+            }
+        </style>
         @stack('js')
     </body>
 </html>

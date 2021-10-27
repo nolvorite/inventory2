@@ -1,0 +1,21 @@
+product_assignments
+-----
+assigned_by_id (id)
+assigned_to_id (id)
+product_id (id)
+quantity (integer) = the amount of products that you want them to sell
+quantity_sold (integer) = the amount of products that they've sold
+ - after assigning, the quantity of the original product will be reduced by this amount
+notes (string) = description of the assignment
+return_status (string) = check to see that the product is returned
+  possible values:
+   - returned
+   - not_all_returned
+   - approved
+   - sold
+returned_amount (integer) = amount that's returned
+seller_price (float) = the price the seller sold the products for
+
+Make an API for this
+
+
