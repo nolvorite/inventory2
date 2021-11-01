@@ -1,4 +1,4 @@
-@extends('layouts.app', ['class' => 'register-page', 'page' => 'Laravel Inventory', 'contentClass' => 'register-page', 'section' => 'auth'])
+@extends('layouts.app', ['class' => 'register-page', 'page' => env('APP_NAME'). ' - Register', 'contentClass' => 'register-page', 'section' => 'auth'])
 
 @section('content')
     <div class="row">

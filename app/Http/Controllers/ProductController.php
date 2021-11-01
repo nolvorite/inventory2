@@ -6,6 +6,7 @@ use App\Product;
 use App\ProductCategory;
 use App\Http\Requests\ProductRequest;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
 
 use Carbon\Carbon;
 
@@ -34,7 +35,7 @@ class ProductController extends Controller
         return redirect()->route('categories.index');
     }
 
-    public function index()
+    public function index(Request $request)
     {
         $products = new Product;
 
@@ -68,6 +69,10 @@ class ProductController extends Controller
             return $product;
 
         });
+
+        if($request->wantsJson()){
+            return response()->json(compact('products'));
+        }
 
         return view('inventory.products.index', compact('products'));
     }

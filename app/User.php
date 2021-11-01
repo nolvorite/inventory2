@@ -6,11 +6,13 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
 {
     use SoftDeletes;
     use Notifiable;
+    use HasApiTokens;
 
     /**
      * The attributes that are mass assignable.
@@ -24,7 +26,9 @@ class User extends Authenticatable
 
         'employee_type', 'father_name', 'mother_name',
 
-        'shop_name', 'due_limit', 'due_limit_date', 'active_status'
+        'shop_name', 'due_limit', 'due_limit_date', 'active_status',
+
+        'reference_name', 'note', 'nid'
     ];
 
     /**

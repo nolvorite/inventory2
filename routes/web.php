@@ -27,6 +27,11 @@ Route::group(['middleware' => 'auth'], function () {
         'inventory/categories' => 'ProductCategoryController',
         'transactions/transfer' => 'TransferController',
         'methods' => 'MethodController',
+        'assignments' => 'AssignmentController',
+        'gifts' => 'GiftsController',
+        'loans' => 'LoansController',
+        'loan_payments' => 'LoanPaymentsController',
+        'expenses' => 'ExpensesController'
     ]);
 
     Route::get('/switch_status', ['as' => 'products.switch_status', 'uses' => 'ProductController@switch_status']);

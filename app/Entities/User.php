@@ -1,7 +1,9 @@
 <?php
 
 namespace App\Entities;
+use Illuminate\Support\Facades\DB;
 use Mekaeil\LaravelUserManagement\Entities\User as UserManagement;
+use Laravel\Passport\HasApiTokens;
 
 class User extends UserManagement
 {
@@ -20,6 +22,15 @@ class User extends UserManagement
 
         'reference_name', 'note', 'nid'
     ];
+
+    public static function withDept(){
+        return (new static)->join('user_departments_users','user_departments_users.user_id','=','users.id')->where('department_id',env('MANAGER_DEPARTMENT_ID'))->orderByDesc('created_at')->get();
+    }
+
+    public static function withCustomers(){
+        return (new static)->join('user_departments_users','user_departments_users.user_id','=','users.id')->where('department_id',env('CUSTOMER_DEPARTMENT_ID'))->orderByDesc('created_at')->get();
+    }
+        
 
 
 

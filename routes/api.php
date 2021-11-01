@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use Laravel\Passport\Passport;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +14,19 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Passport::routes(null, ['middleware' => 'api']);
+
+Route::group(['middleware' => 'client_credentials'], function(){
+	Route::resources([
+        'providers' => 'ProviderController',
+        'inventory/products' => 'ProductController',
+        'clients' => 'ClientController',
+        'inventory/categories' => 'ProductCategoryController',
+        'transactions/transfer' => 'TransferController',
+        'methods' => 'MethodController',
+        'assignments' => 'AssignmentController',
+        'gifts' => 'GiftsController',
+        'loans' => 'LoansController',
+        'loan_payments' => 'LoanPaymentsController',
+    ]);
 });

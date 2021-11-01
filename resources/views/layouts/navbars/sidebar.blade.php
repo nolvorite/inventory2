@@ -11,13 +11,13 @@
 
 
             <li>
-                <a data-toggle="collapse" href="#inventory" aria-expanded=true>
+                <a data-toggle="collapse" href="#inventory" aria-expanded=false>
                     <i class="tim-icons icon-app"></i>
                     <span class="nav-link-text">Inventory</span>
                     <b class="caret mt-1"></b>
                 </a>
 
-                <div class="collapse show" id="inventory">
+                <div class="collapse" id="inventory">
                     <ul class="nav pl-4">
                         
                         <li @if (request()->routeIs('products.index')) class="active " @endif>
@@ -56,19 +56,26 @@
             </li>
 
             <li>
-                <a data-toggle="collapse" href="#assignments" aria-expanded=true>
+                <a data-toggle="collapse" href="#assignments" aria-expanded=false>
                     <i class="tim-icons icon-check-2"></i>
                     <span class="nav-link-text">Assignments</span>
                     <b class="caret mt-1"></b>
                 </a>
 
-                <div class="collapse show" id="assignments">
+                <div class="collapse " id="assignments">
                     <ul class="nav pl-4">
                         
-                        <li @if (request()->routeIs('products.index')) class="active " @endif>
-                            <a href="{{ route('products.index') }}">
+                        <li @if (request()->routeIs('assignments.index')) class="active " @endif>
+                            <a href="{{ route('assignments.index') }}">
                                 <i class="tim-icons icon-check-2"></i>
-                                <p>Assignments</p>
+                                <p>List</p>
+                            </a>
+                        </li>
+
+                        <li @if (request()->routeIs('assignments.create')) class="active " @endif>
+                            <a href="{{ route('assignments.create') }}">
+                                <i class="tim-icons icon-check-2"></i>
+                                <p>CREATE NEW</p>
                             </a>
                         </li>
 
@@ -77,13 +84,13 @@
             </li>
 
             <li>
-                <a data-toggle="collapse" href="#employees" aria-expanded=true>
+                <a data-toggle="collapse" href="#employees" aria-expanded=false>
                     <i class="tim-icons icon-single-02"></i>
                     <span class="nav-link-text">Users</span>
                     <b class="caret mt-1"></b>
                 </a>
 
-                <div class="collapse show" id="employees">
+                <div class="collapse" id="employees">
                     <ul class="nav pl-4">
                         
                         <!-- <li @if (request()->routeIs('admin.user_management.user.index')) class="active " @endif>
@@ -132,6 +139,36 @@
                     </ul>
                 </div>
             </li>
+
+            <li>
+                <a data-toggle="collapse" href="#tracking" aria-expanded=false>
+                    <i class="tim-icons icon-chart-bar-32"></i>
+                    <span class="nav-link-text">Tracking</span>
+                    <b class="caret mt-1"></b>
+                </a>
+
+                <div class="collapse " id="tracking">
+                    <ul class="nav pl-4">
+                        
+                        <li @if (request()->routeIs('gifts.*')) class="active " @endif>
+                            <a href="{{ route('gifts.index') }}">
+                                <i class="tim-icons icon-gift-2"></i>
+                                <p>Manage Gifts</p>
+                            </a>
+                        </li>
+
+                        <li @if (request()->routeIs('loans.*')) class="active " @endif>
+                            <a href="{{ route('loans.index') }}">
+                                <i class="tim-icons icon-coins"></i>
+                                <p>Manage Loans</p>
+                            </a>
+                        </li>
+
+                    </ul>
+                </div>
+            </li>
+
+
 
         </ul>
     </div>
