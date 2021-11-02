@@ -18,7 +18,7 @@ class CreateExpensesTable extends Migration
             $table->softDeletes();
             $table->timestamps();
             $table->string('expense_type')->nullable();
-            $table->float('expense_amount')
+            $table->float('expense_amount');
             $table->datetime('date_paid');
         });
     }
