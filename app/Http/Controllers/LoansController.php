@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\loan;
-use App\loanPayment;
+use App\Loan;
+use App\LoanPayment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
