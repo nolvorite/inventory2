@@ -30,7 +30,7 @@ class HomeController extends Controller
         $anualclients = $this->getAnnualClients();
         $anualproducts = $this->getAnnualProducts();
 
-        $totalassigned = DB::select(DB::Raw('SELECT COUNT(products.id) AS total_assigned FROM assignments INNER JOIN products ON assignments.product_id = products.id WHERE assignments.return_status != \'sold\' GROUP BY product_id'))[0]->total_assigned;
+        $totalassigned = @DB::select(DB::Raw('SELECT COUNT(products.id) AS total_assigned FROM assignments INNER JOIN products ON assignments.product_id = products.id WHERE assignments.return_status != \'sold\' GROUP BY product_id'))[0]->total_assigned;
         
         return view('dashboard', [
 
