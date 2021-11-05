@@ -6,6 +6,11 @@ use Carbon\Carbon;
 use App\SoldProduct;
 use App\Transaction;
 use App\PaymentMethod;
+use App\Loan;
+use App\Assignment;
+use App\Product;
+use \Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
@@ -15,16 +20,30 @@ class HomeController extends Controller
      * @return \Illuminate\View\View
      */
 
-    public function index()
+    public function index(Request $request)
     {
+
         $monthlyBalanceByMethod = $this->getMethodBalance()->get('monthlyBalanceByMethod');
         $monthlyBalance = $this->getMethodBalance()->get('monthlyBalance');
 
         $anualsales = $this->getAnnualSales();
         $anualclients = $this->getAnnualClients();
         $anualproducts = $this->getAnnualProducts();
+
+        $totalassigned = DB::select(DB::Raw('SELECT COUNT(products.id) AS total_assigned FROM assignments INNER JOIN products ON assignments.product_id = products.id WHERE assignments.return_status != \'sold\' GROUP BY product_id'))[0]->total_assigned;
         
         return view('dashboard', [
+
+            'totalloans' => $this->getTotalLoans(),
+
+            'totaldues' => $this->getTotalDues(),
+
+            'totalsoldthismonth' => $this->getTotalSoldThisMonth(),
+
+            'totalproducts' => $this->totalProductData(),
+
+            'totalassigned' => $totalassigned,
+
             'monthlybalance'            => $monthlyBalance,
             'monthlybalancebymethod'    => $monthlyBalanceByMethod,
             'lasttransactions'          => Transaction::latest()->limit(20)->get(),
@@ -38,6 +57,49 @@ class HomeController extends Controller
             'semesterexpenses'          => $this->getMonthlyTransactions()->get('semesterexpenses'),
             'semesterincomes'           => $this->getMonthlyTransactions()->get('semesterincomes')
         ]);
+    }
+
+    public function no_access(){
+        return view('no_access');
+    }
+
+    public function totalProductData(){
+        $product = Product::select(DB::Raw('SUM(stock) as stock, SUM(price) as price'))->first();
+
+        return $product;
+    }
+
+    public function getTotalLoans(){
+       $loan = Loan::select(DB::Raw('SUM(loan_amount) as total'))->where('type','normal')
+
+            ->first();
+        return $loan['total'];
+    }
+
+    public function getTotalSoldThisMonth(){
+
+        DB::enableQueryLog();
+
+       $assignment = Assignment::select(DB::Raw('SUM(CAST(seller_price AS float)*CAST(quantity_sold AS double)) as total'))
+            ->whereRaw('
+
+                created_at >= (LAST_DAY(NOW()) + INTERVAL 1 DAY - INTERVAL 1 MONTH)
+                AND created_at < (LAST_DAY(NOW()) + INTERVAL 1 DAY)
+
+            ')
+            ->first();
+
+        return $assignment['total'];
+    }
+
+    public function getTotalDues(){
+        $loan = Loan::select(DB::Raw('SUM(loan_amount) as total'))
+
+ 
+        ->first();
+
+        return $loan['total'];
+
     }
 
     public function getMethodBalance()

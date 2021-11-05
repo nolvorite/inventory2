@@ -7,7 +7,7 @@
                 <div class="card-header">
                     <div class="row">
                         <div class="col-8">
-                            <h4 class="card-title">Products <a href='{{ route('products.index') }}?filter=robi' class='btn btn-sm btn-dark'>robi</a><a href='{{ route('products.index') }}?filter=airtel' class='btn btn-sm btn-dark'>airtel</a><a href='{{ route('products.index') }}' class='btn btn-sm btn-dark'>all</a></h4>
+                            <h4 class="card-title">Products <a href='{{ route('products.index') }}?filter=robi' class='btn btn-sm btn-dark'>Robi</a><a href='{{ route('products.index') }}?filter=airtel' class='btn btn-sm btn-dark'>Airtel</a><a href='{{ route('products.index') }}' class='btn btn-sm btn-dark'>all</a></h4>
 
                         </div>
                         <div class="col-4 text-right">
@@ -34,7 +34,7 @@
                                     <tr>
 
 
-                                        <td>{{ $product->company_name }}</td>
+                                        <td>{{ ucfirst($product->company_name) }}</td>
 
                                         <td><a href='?category_id={{ $product->category->id }}'>{{ $product->category->name }}</a></td>
 
@@ -45,9 +45,7 @@
                                         <td>{{ $product->buying_date }}</td>
  
                                         <td class="td-actions text-right">
-                                            <a href="{{ route('products.show', $product) }}" class="btn btn-link" data-toggle="tooltip" data-placement="bottom" title="More Details">
-                                                <i class="tim-icons icon-zoom-split"></i>
-                                            </a>
+                    
                                             <a href="{{ route('products.edit', $product) }}" class="btn btn-link" data-toggle="tooltip" data-placement="bottom" title="Edit Product">
                                                 <i class="tim-icons icon-pencil"></i>
                                             </a>

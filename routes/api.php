@@ -17,16 +17,43 @@ use Laravel\Passport\Passport;
 Passport::routes(null, ['middleware' => 'api']);
 
 Route::group(['middleware' => 'client_credentials'], function(){
-	Route::resources([
-        'providers' => 'ProviderController',
-        'inventory/products' => 'ProductController',
-        'clients' => 'ClientController',
-        'inventory/categories' => 'ProductCategoryController',
-        'transactions/transfer' => 'TransferController',
-        'methods' => 'MethodController',
-        'assignments' => 'AssignmentController',
-        'gifts' => 'GiftsController',
-        'loans' => 'LoansController',
-        'loan_payments' => 'LoanPaymentsController',
-    ]);
+
+    Route::group(['middleware' => 'role:employee'], function(){
+
+        Route::get('/addSale', 'UsersController@show');
+        Route::get('/returnProduct', 'ProductController@index');
+
+    });
+
+    Route::group(['middleware' => 'role:admin'], function(){
+
+        Route::group(['namespace' => '\App\Http\Controllers\UserManagement'], function(){
+
+            Route::get('/employeeProfile/{id}', 'UsersController@show');
+            Route::get('/customerProfile/{id}', 'UsersController@show');
+
+
+        });
+
+        Route::resources(['assignments' => 'AssignmentController']);
+
+        Route::group(['prefix' => 'inside_resource'], function(){
+            Route::resources([
+                'providers' => 'ProviderController',
+                'inventory/products' => 'ProductController',
+                'clients' => 'ClientController',
+                'inventory/categories' => 'ProductCategoryController',
+                'transactions/transfer' => 'TransferController',
+                'methods' => 'MethodController',
+                'gifts' => 'GiftsController',
+                'loans' => 'LoansController',
+                'loan_payments' => 'LoanPaymentsController',
+            ]);
+        });
+
+        
+
+    });
+
+	
 });

@@ -27,6 +27,7 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $middlewareGroups = [
+        
         'web' => [
             \App\Http\Middleware\EncryptCookies::class,
             \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
@@ -62,7 +63,8 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
-        'client_credentials' => \Laravel\Passport\Http\Middleware\CheckClientCredentials::class
+        'client_credentials' => \Laravel\Passport\Http\Middleware\CheckClientCredentials::class,
+        'role' => \App\Http\Middleware\Role::class
     ];
 
     /**

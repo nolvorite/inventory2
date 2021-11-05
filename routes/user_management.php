@@ -1,18 +1,18 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| LARAVEL USER MANAGEMENT ROUTE
-|--------------------------------------------------------------------------
-|
-|
-*/
+    /*
+    |--------------------------------------------------------------------------
+    | LARAVEL USER MANAGEMENT ROUTE
+    |--------------------------------------------------------------------------
+    |
+    |
+    */
 
     Route::group([
         'namespace'     => 'App\Http\Controllers\UserManagement',
         'prefix'        => '/user-management',
         'as'            => 'admin.user_management.',
-        'middleware'    => ['web', 'auth:web']
+        'middleware'    => ['web', 'auth:web', 'role:admin']
     ], 
     function () {
 
@@ -31,6 +31,8 @@
             route::get('/customer_list', 'UsersController@index_c')->name('index_c');
 
             route::get('/assign', 'UsersController@assign')->name('assign');
+
+            
 
             Route::group(['prefix' => 'create', 'as' => 'create.'], function(){
 

@@ -155,6 +155,24 @@ class UsersController extends Controller
         ]);
     }
 
+    public function show($id){
+
+        $userData = User::findOrFail($id)->first();
+
+        unset(
+            $userData->first_name,
+            $userData->last_name,
+            $userData->password,
+            $userData->updated_at,
+            $userData->deleted_at,
+            $userData->shop_name,
+            $userData->due_limit,
+            $userData->due_limit_date
+        );
+
+        return response()->json($userData);
+    }
+
     public function update(int $ID, UpdateUser $request)
     {
 

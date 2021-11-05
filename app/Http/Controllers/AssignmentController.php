@@ -9,6 +9,8 @@ use App\ProductCategory;
 use App\Entities\User;
 use Illuminate\Support\Facades\DB;
 
+use App\Loan;
+
 use App\Http\Requests\AssignmentRequest;
 use App\Http\Requests\AssignmentRequestU;
 
@@ -34,6 +36,10 @@ class AssignmentController extends Controller
                 foreach(['stock_defective', 'assigned_by_id','email','product_label','assigned_to_id','created_at','deleted_at','updated_at'] as $cols){
                     unset($assignment->{$cols});
                 }
+
+                if($assignment->company_assigned_to === 'BP'){
+                    $assignment->due_amount = floatval($assignment->selling_price) - floatval($assignment->seller_price);
+                }                
 
                 return $assignment;
 
@@ -84,11 +90,47 @@ class AssignmentController extends Controller
         $dataToSubmit['return_status'] = 'approved';
         
         try {
+
+            $employeeCompanySelector = $dataToSubmit['employee_company_selector'];
+
+            unset($dataToSubmit['company_selector'],$dataToSubmit['employee_company_selector']);
+
+            $dataToSubmit['seller_price'] = $request->seller_price !== null ? $request->seller_price : 0;
+
             Assignment::create($dataToSubmit);
+
+            
+
+            if($employeeCompanySelector === 'BP'){
+                $products = Product::catJoin()->where(['products.id' => $request->product_id])->orderBy('products.created_at')->first();
+
+                $difference = floatval($products->selling_price) - floatval($request->seller_price);
+
+                if($difference < 0){
+                    $difference = 0;
+                }
+
+                $user = User::findOrFail($dataToSubmit['assigned_to_id'])->first();
+
+                Loan::create([
+                    'assigned_by_id' => $user->id,
+                    'loaner_name' => $user->name,
+                    'loan_amount' => $difference,
+                    'type' => 'due',
+                    'assigned_date' => DB::Raw('NOW()'),
+                    'loan_due_date' => DB::Raw('DATE_ADD(NOW(), INTERVAL 1 YEAR)')
+                ]);
+
+            }
+
+            
+
         }catch(\Exception $e){
+
             return redirect()
             ->route('assignments.index')
             ->withStatus('Failed to register assignment.');
+
         }
 
         return redirect()

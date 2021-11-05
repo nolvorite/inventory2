@@ -21,6 +21,8 @@ class UserController extends Controller
         return view('users.index', compact('users'));
     }
 
+    
+
     /**
      * Show the form for creating a new user
      *

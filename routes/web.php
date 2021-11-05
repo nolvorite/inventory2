@@ -16,9 +16,13 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
-Route::get('/', 'HomeController@index')->name('home')->middleware('auth');
+Route::get('/no_access', 'HomeController@no_access')->name('no_access');
 
-Route::group(['middleware' => 'auth'], function () {
+Route::group(['middleware' => ['auth', 'role:admin']], function () {
+
+    Route::get('/', 'HomeController@index')->name('home');
+
+    Route::get('dues', 'LoansController@index_d')->name('dues');
 
     Route::resources([
         'providers' => 'ProviderController',

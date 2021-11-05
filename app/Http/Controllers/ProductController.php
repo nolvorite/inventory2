@@ -37,6 +37,7 @@ class ProductController extends Controller
 
     public function index(Request $request)
     {
+
         $products = new Product;
 
         $products = $products->catJoin();
@@ -116,14 +117,7 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Product $product)
-    {
-        $solds = $product->solds()->latest()->limit(25)->get();
 
-        $receiveds = $product->receiveds()->latest()->limit(25)->get();
-
-        return view('inventory.products.show', compact('product', 'solds', 'receiveds'));
-    }
 
     /**
      * Show the form for editing the specified resource.

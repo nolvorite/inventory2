@@ -85,13 +85,11 @@
                                     'placeholder' => 'Quantity Here',
                                     'label' => 'Quantity'
                                 ]
-                            ])
-
-            
+                            ])            
 
                             <div class="pl-lg-12">
-                                <div class="form-group{{ $errors->has('product_id') ? ' has-danger' : '' }}">
-                                    <label class="form-control-label" for="product_id">Notes</label>
+                                <div class="form-group{{ $errors->has('notes') ? ' has-danger' : '' }}">
+                                    <label class="form-control-label" for="notes">Notes</label>
                                     <textarea class='form-control' name='notes'>{{ old("notes") }}</textarea>
                                 </div>
                             </div>

@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="row">
-        <div class="col-12">
+        <div class="col-12 d-none">
             <div class="card card-chart">
                 <div class="card-header ">
                     <div class="row">
@@ -50,36 +50,68 @@
         <div class="col-lg-4">
             <div class="card card-chart">
                 <div class="card-header">
-                    <h5 class="card-category">Last Month Income</h5>
-                    <h3 class="card-title"><i class="tim-icons icon-money-coins text-primary"></i>{{ format_money($semesterincomes) }}</h3>
+                    <h5 class="card-category">Total Loans</h5>
+                    <h3 class="card-title"><i class="tim-icons icon-money-coins text-primary"></i>{{ format_money($totalloans) }}</h3>
                 </div>
-                <div class="card-body">
-                    <div class="chart-area">
-                        <canvas id="chartLinePurple"></canvas>
-                    </div>
-                </div>
+               
             </div>
         </div>
         <div class="col-lg-4">
             <div class="card card-chart">
                 <div class="card-header">
+                    <h5 class="card-category">Total Sold This Month</h5>
+                    <h3 class="card-title"><i class="tim-icons icon-money-coins text-primary"></i>{{ format_money($totalsoldthismonth) }}</h3>
+                </div>
+               
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="card card-chart">
+                <div class="card-header">
+                    <h5 class="card-category">Total Product Stock</h5>
+                    <h3 class="card-title"><i class="tim-icons icon-app"></i>{{ $totalproducts['stock'] }}</h3>
+                </div>
+               
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="card card-chart">
+                <div class="card-header">
+                    <h5 class="card-category">Total Price</h5>
+                    <h3 class="card-title"><i class="tim-icons icon-money-coins text-primary"></i>{{ format_money($totalproducts['price']) }}</h3>
+                </div>
+               
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="card card-chart">
+                <div class="card-header">
+                    <h5 class="card-category">Currently Assigned Products</h5>
+                    <h3 class="card-title"><i class="tim-icons icon-app"></i>{{ $totalassigned }}</h3>
+                </div>
+               
+            </div>
+        </div>
+        <div class="col-lg-4 d-none">
+            <div class="card card-chart">
+                <div class="card-header">
                     <h5 class="card-category">Monthly Balance</h5>
                     <h3 class="card-title"><i class="tim-icons icon-bank text-info"></i> {{ format_money($monthlybalance) }}</h3>
                 </div>
-                <div class="card-body">
+                <div class="card-body d-none">
                     <div class="chart-area">
                         <canvas id="CountryChart"></canvas>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-lg-4">
+        <div class="col-lg-4 d-none">
             <div class="card card-chart">
                 <div class="card-header">
                     <h5 class="card-category">Expenditures Last Month</h5>
                     <h3 class="card-title"><i class="tim-icons icon-paper text-success"></i> {{ format_money($semesterexpenses) }}</h3>
                 </div>
-                <div class="card-body">
+                <div class="card-body d-none">
                     <div class="chart-area">
                         <canvas id="chartLineGreen"></canvas>
                     </div>
@@ -88,8 +120,8 @@
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-lg-6 col-md-12">
+    <div class="row d-none">
+        <div class="col-lg-6 col-md-12 ">
             <div class="card card-tasks">
                 <div class="card-header">
                     <div class="row">

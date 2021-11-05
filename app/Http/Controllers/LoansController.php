@@ -16,8 +16,14 @@ class LoansController extends Controller
      */
     public function index()
     {
-        $loans = Loan::all();
+        $loans = Loan::where('type', 'normal')->get();
         return view('loans.index', compact('loans'));
+    }
+
+    public function index_d()
+    {
+        $loans = Loan::where('type', 'due')->get();
+        return view('loans.due', compact('loans'));
     }
 
     /**

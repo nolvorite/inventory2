@@ -140,6 +140,7 @@
                 </div>
             </li>
 
+
             <li>
                 <a data-toggle="collapse" href="#tracking" aria-expanded=false>
                     <i class="tim-icons icon-chart-bar-32"></i>
@@ -161,6 +162,13 @@
                             <a href="{{ route('loans.index') }}">
                                 <i class="tim-icons icon-coins"></i>
                                 <p>Manage Loans</p>
+                            </a>
+                        </li>
+
+                        <li @if (request()->routeIs('dues')) class="active " @endif>
+                            <a href="{{ route('dues') }}">
+                                <i class="tim-icons icon-coins"></i>
+                                <p>Manage Dues</p>
                             </a>
                         </li>
 
