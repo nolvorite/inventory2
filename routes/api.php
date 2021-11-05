@@ -18,6 +18,8 @@ Passport::routes(null, ['middleware' => 'api']);
 
 Route::group(['middleware' => 'client_credentials'], function(){
 
+    Route::get('profile', ['as' => 'profile.edit', 'uses' => 'ProfileController@edit']);
+
     Route::group(['middleware' => 'role:employee'], function(){
 
         Route::get('/addSale', 'UsersController@show');
