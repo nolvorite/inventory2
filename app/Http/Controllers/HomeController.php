@@ -80,7 +80,7 @@ class HomeController extends Controller
 
         DB::enableQueryLog();
 
-       $assignment = Assignment::select(DB::Raw('SUM(CAST(seller_price AS float)*CAST(quantity_sold AS double)) as total'))
+        $assignment = Assignment::select(DB::Raw('SUM(CAST(seller_price AS float)*CAST(quantity_sold AS double)) as total'))
             ->whereRaw('
 
                 created_at >= (LAST_DAY(NOW()) + INTERVAL 1 DAY - INTERVAL 1 MONTH)
@@ -94,7 +94,6 @@ class HomeController extends Controller
 
     public function getTotalDues(){
         $loan = Loan::select(DB::Raw('SUM(loan_amount) as total'))
-
  
         ->first();
 

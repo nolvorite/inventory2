@@ -35,18 +35,14 @@ class AssignmentController extends Controller
 
                 foreach(['stock_defective', 'assigned_by_id','email','product_label','assigned_to_id','created_at','deleted_at','updated_at'] as $cols){
                     unset($assignment->{$cols});
-                }
-
-                if($assignment->company_assigned_to === 'BP'){
-                    $assignment->due_amount = floatval($assignment->selling_price) - floatval($assignment->seller_price);
-                }                
+                }         
 
                 return $assignment;
 
             });
 
 
-            return json_encode(compact('assignments'));
+            return response()->json(compact('assignments'));
         }
         
         return view('assignments.index', compact('assignments'));

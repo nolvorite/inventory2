@@ -15,6 +15,11 @@ class ProfileController extends Controller
      */
     public function edit()
     {
+
+        if(request()->wantsJson()){
+            return response()->json(auth()->user());
+        }
+
         return view('profile.edit');
     }
 
