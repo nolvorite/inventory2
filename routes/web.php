@@ -24,6 +24,8 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
 
     Route::get('dues', 'LoansController@index_d')->name('dues');
 
+    Route::get('create_due', 'LoansController@create_due')->name('create_due');
+
     Route::resources([
         'providers' => 'ProviderController',
         'inventory/products' => 'ProductController',
@@ -35,7 +37,8 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
         'gifts' => 'GiftsController',
         'loans' => 'LoansController',
         'loan_payments' => 'LoanPaymentsController',
-        'expenses' => 'ExpensesController'
+        'expenses' => 'ExpensesController',
+        'complaints' => 'ComplaintsController'
     ]);
 
     Route::get('/switch_status', ['as' => 'products.switch_status', 'uses' => 'ProductController@switch_status']);

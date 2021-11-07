@@ -15,7 +15,7 @@ class ExpensesController extends Controller
     public function index()
     {
 
-        $expenses = []
+        $expenses = Expense::get();
 
         return view('expenses.index', compact('expenses'));
     }
@@ -27,7 +27,7 @@ class ExpensesController extends Controller
      */
     public function create()
     {
-        return view('expenses.create', compact('expenses'));
+        return view('expenses.create');
     }
 
     /**
@@ -38,7 +38,25 @@ class ExpensesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+
+            $newId = Expense::create([
+                'expense_type' => $request->expense_type,
+                'expense_amount' => $request->expense_amount,
+                'date_paid' => $request->date_paid,
+                'assigned_by_id' => auth()->id()
+            ])->id;
+
+        }catch(\Exception $e){
+
+            return redirect()
+            ->route('expenses.index')
+            ->withStatus('Failed to register expense.');
+        }
+
+        return redirect()
+            ->route('expenses.index', ['loan' => $newId])->withStatus('Successfully registered expense.');
+
     }
 
     /**
@@ -58,9 +76,11 @@ class ExpensesController extends Controller
      * @param  \App\expenses  $expenses
      * @return \Illuminate\Http\Response
      */
-    public function edit(expenses $expenses)
+    public function edit(int $id)
     {
-        //
+        $expense = Expense::findOrFail($id)->first();
+        return view('expenses.edit', compact('expense'));
+
     }
 
     /**
@@ -70,9 +90,26 @@ class ExpensesController extends Controller
      * @param  \App\expenses  $expenses
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, expenses $expenses)
+    public function update($id, Request $request)
     {
-        //
+        try {
+            Expense::
+
+            where('id', $id)->update( [
+                'expense_type' => $request->expense_type,
+                'expense_amount' => $request->expense_amount,
+                'date_paid' => $request->date_paid
+            ]);
+
+        }catch(\Exception $e){
+            return redirect()
+            ->route('expenses.index')
+            ->withStatus('Failed to modify expense details.');
+        }
+
+        return redirect()
+            ->route('expenses.index')
+            ->withStatus('Successfully modified expense details.');
     }
 
     /**

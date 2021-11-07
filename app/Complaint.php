@@ -3,12 +3,8 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Expense extends Model
+class Complaint extends Model
 {
-    use SoftDeletes;
-
     public $guarded = ['id'];
-
 }

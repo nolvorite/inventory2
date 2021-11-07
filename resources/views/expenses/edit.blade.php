@@ -1,4 +1,4 @@
-@extends('layouts.app', ['page' => 'Add New Expense', 'pageSlug' => 'list', 'section' => 'expenses'])
+@extends('layouts.app', ['page' => 'Add New Loan Record', 'pageSlug' => 'list', 'section' => 'expenses'])
 @section('content')
 <form method="post" action="{{ route('expenses.store') }}" autocomplete="off">
                             @csrf
@@ -25,8 +25,7 @@
                         'settings' => [
                             'label' => 'Expense Type',
                             'id' => 'expense_type',
-                            'valueCol' => 'value',
-                            'displayCol' => 'display',
+                            'defaultSelected' => $expense->expense_type,
                             'data' => [
                                 ['value' => 'transport' , 'display' => 'Transport'],
                                 ['value' => 'fuel' , 'display' => 'Fuel'],

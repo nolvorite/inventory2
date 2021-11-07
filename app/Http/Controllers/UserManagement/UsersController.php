@@ -149,9 +149,11 @@ class UsersController extends Controller
         $this->roleRepository->setRoleToMember($user, $roles);
         $this->departmentRepository->attachDepartment($user, $departments);
 
-        return redirect()->route('admin.user_management.user.index_e')->with('message',[
+        $route = $roles[0].'' === env('MANAGER_DEPARTMENT_ID').'' ? 'index_e' : 'index_c';
+
+        return redirect()->route('admin.user_management.user.'.$route)->with('message',[
             'type'   => 'success',
-            'text'   => 'َUser updated successfully!' 
+            'text'   => 'َUser created successfully!' 
         ]);
     }
 

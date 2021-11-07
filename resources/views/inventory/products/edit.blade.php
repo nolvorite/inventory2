@@ -16,9 +16,20 @@
                         </div>
                     </div>
                     <div class="card-body">
+
+                        @if(count($errors) > 0)
+
+    <div class="alert alert-warning">
+        Some fields are missing input. Please make sure that all fields are filled out.
+    </div>
+
+    @endif
+
                         <form method="post" action="{{ route('products.update', $product) }}" autocomplete="off">
                             @csrf
                             @method('put')
+
+                            <input name='name' value='/' type='hidden'>
 
                             <h6 class="heading-small text-muted mb-4">Product Information</h6>
                             <div class="pl-lg-4">
@@ -36,7 +47,7 @@
                                     <label class="form-control-label" for="input-name">Product Type</label>
                                     <select name="product_category_id" id="input-category" class="form-select form-control-alternative{{ $errors->has('product_type') ? ' is-invalid' : '' }}" required>
                                         @foreach ($categories as $category)
-                                            @if($category['id'] == old('document'))
+                                            @if($category['id'] == old('product_category_id',$product->product_category_id))
                                                 <option value="{{$category['id']}}" selected>{{$category['name']}}</option>
                                             @else
                                                 <option value="{{$category['id']}}">{{$category['name']}}</option>
@@ -55,7 +66,7 @@
 
                                 <div class="form-group{{ $errors->has('buying_date') ? ' has-danger' : '' }}">
                                     <label class="form-control-label" for="buying_date">Buying Date</label>
-                                    <input type="text" name="buying_date" id="buying_date" class="form-control form-control-alternative{{ $errors->has('buying_date') ? ' is-invalid' : '' }}" placeholder="Buying Date" value="{{ old('buying_date', $product->buying_date) }}" required>
+                                    <input type="text" name="buying_date" id="buying_date" class="datetimed form-control form-control-alternative{{ $errors->has('buying_date') ? ' is-invalid' : '' }}" placeholder="Buying Date" value="{{ old('buying_date', $product->buying_date) }}" required>
 
                                     @include('alerts.feedback', ['field' => 'buying_date'])
                                 </div>
@@ -113,5 +124,7 @@
                 select.search($("select[name=company_name]").val())
             }
         })
+
+        $("#buying_date").datetimepicker({timepicker:false, format:'d M Y'});
     </script>
 @endpush

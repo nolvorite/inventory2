@@ -9,6 +9,8 @@ use App\ProductCategory;
 use App\Entities\User;
 use Illuminate\Support\Facades\DB;
 
+use Illuminate\Support\Facades\Auth;
+
 use App\Loan;
 
 use App\Http\Requests\AssignmentRequest;
@@ -30,6 +32,20 @@ class AssignmentController extends Controller
         $assignments = Assignment::fullDataScope()->get();
 
         if(request()->wantsJson()){
+
+            $assignments = Assignment::fullDataScope()->where(['assignee.id' => Auth::id()]);
+
+            if(request()->get('month')){
+
+                $year = request()->get('year') !== null ? request()->get('year') : date("Y");
+                $month = request()->get('month');
+                $assignments = $assignments->whereRaw(DB::Raw('MONTH(assignments.created_at) = '. $month .' AND YEAR(assignments.created_at) = ' . $year . ' '));
+
+            }
+
+            $assignments = $assignments->get();
+
+            
 
             $assignments->map(function($assignment){
 

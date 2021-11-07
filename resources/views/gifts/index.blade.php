@@ -1,4 +1,4 @@
-@extends('layouts.app', ['page' => 'Assigned Gifts', 'pageSlug' => 'list', 'section' => 'gifts'])
+@extends('layouts.app', ['page' => 'Assigned Gifts', 'pageSlug' => 'list', 'section' => 'tracking'])
 
 @section('content')
     <div class="row">
@@ -22,7 +22,7 @@
                             <thead class="text-primary">
                                 <th scope="col">ID</th>
                                 <th>Customer Name</th>
-                                <th>Assigned By</th>
+                                <th>Assigned To</th>
                                 <th>Product</th>
                                 <th>Delivery Date</th>
                                 <th>Status</th>
@@ -33,7 +33,7 @@
                                 <tr>
                                     <td>{{ $g->gift_id }}</td>
                                     <td>{{ $g->customer_name }}</td>
-                                    <td>{{ $g->employee_name }}</td>
+                                    <td>{{ $g->assigned_to_name }}</td>
                                     <td>{{ $g->gift_label }}</td>
                                     <td>{{ $g->delivery_date }} </td>
                                     <td>{{ $g->status }}</td>

@@ -8,7 +8,7 @@
                     <div class="card-header">
                         <div class="row align-items-center">
                             <div class="col-8">
-                                <h3 class="mb-0">New Product</h3>
+                                <h3 class="mb-0">Add New Product</h3>
                             </div>
                             <div class="col-4 text-right">
                                 <a href="{{ route('products.index') }}" class="btn btn-sm btn-primary">Back</a>
@@ -16,7 +16,7 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        @include('alerts.success')
+                        
                         <form method="post" action="{{ route('products.store') }}" autocomplete="off">
                             @csrf
                             <h6 class="heading-small text-muted mb-4">Product Information</h6>
@@ -38,10 +38,10 @@
                                 <label class="form-control-label" for="input-name">Product Type</label>
                                 <select name="product_category_id" id="input-category" class="form-select form-control-alternative{{ $errors->has('name') ? ' is-invalid' : '' }}" required>
                                     @foreach ($categories as $category)
-                                        @if($category['id'] == old('document'))
-                                            <option value="{{$category['id']}}" selected>{{$category['name']}}</option>
+                                        @if($category['id'] == old('product_category_id'))
+                                            <option value="{{$category['id']}}" selected company_desc='{{ $category['company_name'] }}'>{{$category['name']}}</option>
                                         @else
-                                            <option value="{{$category['id']}}">{{$category['name']}}</option>
+                                            <option value="{{$category['id']}}" company_desc='{{ $category['company_name'] }}'>{{$category['name']}}</option>
                                         @endif
                                     @endforeach
                                 </select>
@@ -90,14 +90,14 @@
                                     <div class="col-md-4">                                    
                                         <div class="form-group{{ $errors->has('price') ? ' has-danger' : '' }}">
                                             <label class="form-control-label" for="input-price">Buying Price</label>
-                                            <input type="number" step="1" name="price" id="input-price" class="form-control form-control-alternative" placeholder="Price" value="{{ old('price') }}" required>
+                                            <input type="text"  name="price" id="input-price" class="form-control form-control-alternative" placeholder="Price" value="{{ old('price') }}" >
                                             @include('alerts.feedback', ['field' => 'price'])
                                         </div>
                                     </div>
                                     <div class="col-md-4">                                    
                                         <div class="form-group{{ $errors->has('selling_price') ? ' has-danger' : '' }}">
                                             <label class="form-control-label" for="input-selling-price">Selling Price</label>
-                                            <input type="number" step="1" name="selling_price" id="input-selling-price" class="form-control form-control-alternative" placeholder="Price" value="{{ old('selling_price') }}" required>
+                                            <input type="text" name="selling_price" id="input-selling-price" class="form-control form-control-alternative" placeholder="Price" value="{{ old('selling_price') }}" >
                                             @include('alerts.feedback', ['field' => 'selling_price'])
                                         </div>
                                     </div> 
@@ -117,14 +117,32 @@
 
 @push('js')
     <script>
+
+        $(document).ready(function(){
+             $("select[name=company_name]").on("change",function(){
+                $("#input-category").next().find(".placeholder").text('');
+            });
+
+
+         });
+
+        optionData = [];
+
+        $('select[name=product_category_id]').find("option").each(function(){
+
+            optionData.push({innerHTML: $(this).html() + " <span class='d-none'>" + $(this).attr('company_desc')+"</span>", text: $(this).text(), value: $(this).attr('value')});
+
+        });
+
         select = new SlimSelect({
-            select: '.form-select'
-            ,
+            select: '.form-select',
+            data: optionData,
             afterOpen: function(){
-                select.search($("select[name=company_name]").val())
+                select.search($("select[name=company_name]").val());
+                $("#input-category").next().find(".placeholder").text('');
             }
         })
 
-        $("#buying_date").datetimepicker({timePicker:true});
+        $("#buying_date").datetimepicker({timepicker:false, format:'Y/m/d'});
     </script>
 @endpush

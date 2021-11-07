@@ -18,6 +18,12 @@
                     </div>
 
                <div class='card-body'>
+
+                    @include('alerts.success')
+
+                    <input type='hidden' name='type' value='loan'>
+
+
                		@include('bst', [
                         'type' => 'input',
 

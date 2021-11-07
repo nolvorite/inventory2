@@ -7,7 +7,7 @@
                 <div class="card-header">
                     <div class="row">
                         <div class="col-8">
-                            <h4 class="card-title">Product Types <a href='{{ route('categories.index') }}?filter=robi' class='btn btn-sm btn-dark'>robi</a><a href='{{ route('categories.index') }}?filter=airtel' class='btn btn-sm btn-dark'>airtel</a><a href='{{ route('categories.index') }}' class='btn btn-sm btn-dark'>all</a></h4>
+                            <h4 class="card-title">Product Types <a href='{{ route('categories.index') }}?filter=robi' class='btn btn-sm btn-dark'>Robi</a><a href='{{ route('categories.index') }}?filter=airtel' class='btn btn-sm btn-dark'>Airtel</a><a href='{{ route('categories.index') }}' class='btn btn-sm btn-dark'>All</a></h4>
                         </div>
                         <div class="col-4 text-right">
                             <a href="{{ route('categories.create') }}" class="btn btn-sm btn-primary">New Product Type</a>

@@ -1,4 +1,4 @@
-@extends('layouts.app', ['page' => 'Editing Gift', 'pageSlug' => 'list', 'section' => 'gifts'])
+@extends('layouts.app', ['page' => 'Editing Gift', 'pageSlug' => 'list', 'section' => 'tracking'])
 @section('content')
 <form method="post" action="{{ route('gifts.update', ['gift' => $gift->id]) }}" autocomplete="off">
     @csrf
@@ -41,6 +41,19 @@
                             'id' => 'assigned_by',
                             'value' => $gift->employee_name,
                             'attributes' => "disabled"
+                        ]
+                    ])
+
+                    @include('bst', [
+                        'type' => 'select',
+
+                        'settings' => [
+                            'label' => 'Select Employee',
+                            'id' => 'assigned_to_id',
+                            'data' => $employees,
+                            'valueCol' => 'user_id',
+                            'displayCol' => 'name',
+                            'attributes' => 'readonly'
                         ]
                     ])
 
@@ -106,7 +119,7 @@
                 var select = new SlimSelect(properties);
 
             });
-            $(".datetimed").datetimepicker({timePicker:true});
+            $(".datetimed").datetimepicker({timePicker:true, format:'Y/m/d'});
 
         })
     </script>

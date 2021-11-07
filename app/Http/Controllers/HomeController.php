@@ -80,16 +80,16 @@ class HomeController extends Controller
 
         DB::enableQueryLog();
 
-        $assignment = ['total' => 0];
+        //$assignment = ['total' => 0];
 
-        //$assignment = Assignment::select(DB::Raw('SUM(CAST(seller_price AS float)*CAST(quantity_sold AS double)) as total'))
-            // ->whereRaw('
+        $assignment = Assignment::select(DB::Raw('SUM(seller_price*quantity_sold) as total'))
+            ->whereRaw('
 
-            //     created_at >= (LAST_DAY(NOW()) + INTERVAL 1 DAY - INTERVAL 1 MONTH)
-            //     AND created_at < (LAST_DAY(NOW()) + INTERVAL 1 DAY)
+                created_at >= (LAST_DAY(NOW()) + INTERVAL 1 DAY - INTERVAL 1 MONTH)
+                AND created_at < (LAST_DAY(NOW()) + INTERVAL 1 DAY)
 
-            // ')
-            // ->first();
+            ')
+            ->first();
 
         return $assignment['total'];
     }

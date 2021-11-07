@@ -16,9 +16,11 @@ use Laravel\Passport\Passport;
 
 Passport::routes(null, ['middleware' => 'api']);
 
-Route::group(['middleware' => 'client_credentials'], function(){
+Route::group(['middleware' => ['client_credentials', 'auth:api']], function(){
 
-    Route::get('profile', ['as' => 'profile.edit', 'uses' => 'ProfileController@edit']);
+    Route::get('profile', ['uses' => 'ProfileController@edit']);
+
+    Route::get('myComplains', [ 'uses' => 'ComplaintsController@index']);
 
     Route::group(['middleware' => 'role:employee'], function(){
 

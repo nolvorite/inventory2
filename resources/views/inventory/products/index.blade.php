@@ -7,7 +7,7 @@
                 <div class="card-header">
                     <div class="row">
                         <div class="col-8">
-                            <h4 class="card-title">Products <a href='{{ route('products.index') }}?filter=robi' class='btn btn-sm btn-dark'>Robi</a><a href='{{ route('products.index') }}?filter=airtel' class='btn btn-sm btn-dark'>Airtel</a><a href='{{ route('products.index') }}' class='btn btn-sm btn-dark'>all</a></h4>
+                            <h4 class="card-title">Products <a href='{{ route('products.index') }}?filter=robi' class='btn btn-sm btn-dark'>Robi</a><a href='{{ route('products.index') }}?filter=airtel' class='btn btn-sm btn-dark'>Airtel</a><a href='{{ route('products.index') }}' class='btn btn-sm btn-dark'>All</a></h4>
 
                         </div>
                         <div class="col-4 text-right">
@@ -46,7 +46,7 @@
  
                                         <td class="td-actions text-right">
                     
-                                            <a href="{{ route('products.edit', $product) }}" class="btn btn-link" data-toggle="tooltip" data-placement="bottom" title="Edit Product">
+                                            <a href="{{ route('products.edit', ['product' => $product->product_id]) }}" class="btn btn-link" data-toggle="tooltip" data-placement="bottom" title="Edit Product">
                                                 <i class="tim-icons icon-pencil"></i>
                                             </a>
                                             <form action="{{ route('products.destroy', $product) }}" method="post" class="d-inline">

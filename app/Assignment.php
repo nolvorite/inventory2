@@ -18,6 +18,7 @@ class Assignment extends Model
         ->select(DB::Raw('
             assignments.id AS assignment_id,
             products.*,
+            product_categories.name AS name,
             assignments.*,
             assignee.email,
             assignee.id AS assignee_id,
@@ -31,8 +32,8 @@ class Assignment extends Model
             '))
         ->join("products","product_id","=","products.id")
         ->join("product_categories","products.product_category_id","=","product_categories.id")
-        ->join("users as assignee","assigned_by_id","=","assignee.id")
-        ->join("users as assigner","assigned_to_id","=","assigner.id");
+        ->join("users as assignee","assigned_to_id","=","assignee.id")
+        ->join("users as assigner","assigned_by_id","=","assigner.id");
 
 
     }

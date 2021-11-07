@@ -1,6 +1,6 @@
-@extends('layouts.app', ['page' => 'Add New Expense', 'pageSlug' => 'list', 'section' => 'expenses'])
+@extends('layouts.app', ['page' => 'Add New Due Record', 'pageSlug' => 'list', 'section' => 'loans'])
 @section('content')
-<form method="post" action="{{ route('expenses.store') }}" autocomplete="off">
+<form method="post" action="{{ route('loans.store') }}" autocomplete="off">
                             @csrf
 <div class="container-fluid mt--7">
         <div class="row">
@@ -9,7 +9,7 @@
             	<div class="card-header">
                         <div class="row align-items-center">
                             <div class="col-8">
-                                <h3 class="mb-0">New Expense</h3>
+                                <h3 class="mb-0">New Due</h3>
                             </div>
                             <div class="col-4 text-right">
                                 <a href="{{ route('loans.index') }}" class="btn btn-sm btn-primary">Back</a>
@@ -19,30 +19,15 @@
 
                <div class='card-body'>
 
-                    @include('bst', [
-                        'type' => 'select',
-
-                        'settings' => [
-                            'label' => 'Expense Type',
-                            'id' => 'expense_type',
-                            'valueCol' => 'value',
-                            'displayCol' => 'display',
-                            'data' => [
-                                ['value' => 'transport' , 'display' => 'Transport'],
-                                ['value' => 'fuel' , 'display' => 'Fuel'],
-                                ['value' => 'stationary' , 'display' => 'Stationary'],   
-                            ]
-                        ]
-                    ])
+                    <input type='hidden' name='type' value='due'>
 
                		@include('bst', [
                         'type' => 'input',
 
                         'settings' => [
-                            'label' => 'Expense Amount',
-                            'id' => 'expense_amount',
-                            'type' => 'number',
-                            'placeholder' => 'Expense Amount Here...'
+                            'label' => 'Source Name',
+                            'id' => 'loaner_name',
+                            'placeholder' => 'Loaner Name Here...'
                         ]
                     ])
 
@@ -50,9 +35,31 @@
                         'type' => 'input',
 
                         'settings' => [
-                            'label' => 'Date Paid',
-                            'id' => 'date_paid',
-                            'placeholder' => 'Date Paid Here...',
+                            'type' => 'number',
+                            'label' => 'Loan Amount',
+                            'id' => 'loan_amount',
+                            'placeholder' => 'Loan Amount Here...'
+                        ]
+                    ])
+
+                    @include('bst', [
+                        'type' => 'input',
+
+                        'settings' => [
+                            'label' => 'Assigned Date',
+                            'id' => 'assigned_date',
+                            'placeholder' => 'Date Assigned...',
+                            'classes' => 'datetimed'
+                        ]
+                    ])
+
+                    @include('bst', [
+                        'type' => 'input',
+
+                        'settings' => [
+                            'label' => 'Loan Due Date',
+                            'id' => 'loan_due_date',
+                            'placeholder' => 'Loan Due Date...',
                             'classes' => 'datetimed'
                         ]
                     ])
@@ -79,7 +86,7 @@
                 var select = new SlimSelect(properties);
 
             });
-            $(".datetimed").datetimepicker({timepicker:false, format:'Y/m/d'});
+            $(".datetimed").datetimepicker({timePicker:true});
 
         })
     </script>

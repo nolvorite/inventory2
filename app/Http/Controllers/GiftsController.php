@@ -22,6 +22,8 @@ class GiftsController extends Controller
     {
         $gifts = Gift::fullDataScope()->orderByDesc('gifts.created_at')->get();
 
+        
+
         if(request()->wantsJson()){
             return json_encode(compact('gifts'));
         }
@@ -40,6 +42,16 @@ class GiftsController extends Controller
         
         $customers = User::withCustomers();
 
+        $employees = User::withDept();
+
+        $employees = $employees->map(function($employee){
+
+            $employee->optionAttr .= 'company_desc="('. $employee->employee_type .')"';
+
+            return $employee;
+
+        });
+
         $customers = $customers->map(function($customer){
 
             $customer->customer_name = $customer->first_name .  " " . $customer->last_name;
@@ -47,7 +59,7 @@ class GiftsController extends Controller
             return $customer;
         });
 
-        return view('gifts.create', compact('customers'));
+        return view('gifts.create', compact('customers', 'employees'));
 
     }
 
@@ -65,7 +77,8 @@ class GiftsController extends Controller
                 'employee_id' => auth()->id(),
                 'customer_id' => $request->customer_id,
                 'gift_label' => $request->gift_label,
-                'delivery_date' => $request->delivery_date
+                'delivery_date' => $request->delivery_date,
+                'assigned_to_id' => $request->assigned_to_id
             ]);
         }catch(\Exception $e){
             return redirect()

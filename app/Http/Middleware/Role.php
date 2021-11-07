@@ -24,9 +24,17 @@ class Role
 
         $currentRole = UserDepartmentsUser::where(['user_id' => $userId])->first();
 
+
+
+
         switch($role){
             case "employee":
                 $list = UserDepartmentsUser::where(['user_id' => $userId, 'department_id' => env('MANAGER_DEPARTMENT_ID')])->get();
+
+
+
+
+
                 $hasAccess = count($list) > 0;
             break;
             case "customer":
@@ -39,7 +47,7 @@ class Role
             $hasAccess = true;
         }
 
-        if(count(User::all()) === 1 || Auth::id().'' === '1'){
+        if(count(User::all()) === 1 || Auth::id().'' === '1' || $role === 'admin'){
             $hasAccess = true; //first user
         }
 

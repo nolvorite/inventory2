@@ -240,7 +240,7 @@
                 var select = new SlimSelect(properties);
 
             });
-            $(".datetimed").datetimepicker({timePicker:true});
+            $(".datetimed").datetimepicker({timepicker:false, format: 'd M Y'});
 
         })
     </script>

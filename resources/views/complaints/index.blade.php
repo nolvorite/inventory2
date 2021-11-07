@@ -1,4 +1,4 @@
-@extends('layouts.app', ['page' => 'Expenses', 'pageSlug' => 'list', 'section' => 'tracking'])
+@extends('layouts.app', ['page' => 'Complaints', 'pageSlug' => 'complaints', 'section' => 'tracking'])
 
 @section('content')
 <div class="row">
@@ -7,10 +7,10 @@
                 <div class="card-header">
                     <div class="row">
                         <div class="col-8">
-                            <h4 class="card-title">Expenses</h4>
+                            <h4 class="card-title">Complaints</h4>
                         </div>
                         <div class="col-4 text-right">
-                            <a href="{{ route('expenses.create') }}" class="btn btn-sm btn-primary">New Expense</a>
+                            <a href="{{ route('complaints.create') }}" class="btn btn-sm btn-primary">New Complaint</a>
                         </div>
                     </div>
                 </div>
@@ -21,27 +21,23 @@
                         <table class="table tablesorter " id="">
                             <thead class="text-primary">
                                 <th scope="col">ID</th>
-                                <th>Expense Type</th>
-                                <th>Amount Paid</th>
-                                <th>Date Paid</th>
+                                <th>Complaint</th>
                                 <th></th>
                             </thead>
                             <tbody>
-                                @foreach($expenses as $e)
+                                @foreach($complaints as $c)
                                 <tr>
-                                    <td>{{ $e->id }}</td>
-                                    <td>{{ $e->expense_type }}</td>
-                                    <td>{{ $e->expense_amount }}</td>
-                                    <td>{{ $e->date_paid }}</td>
+                                    <td>{{ $c->id }}</td>
+                                    <td>{{ $c->complaint }}</td>
                                     <td class="td-actions text-right">
                 
-                                        <a href="{{ route('expenses.edit', ['expense' => $e->id]) }}" class="btn btn-link" data-toggle="tooltip" data-placement="bottom" title="Edit Expense">
+                                        <a href="{{ route('complaints.edit', ['complaint' => $c->id]) }}" class="btn btn-link" data-toggle="tooltip" data-placement="bottom" title="Edit Complaint">
                                             <i class="tim-icons icon-pencil"></i>
                                         </a>
-                                        <form action="{{ route('expenses.destroy', ['expense' => $e->id]) }}" method="post" class="d-inline">
+                                        <form action="{{ route('complaints.destroy', ['complaint' => $c->id]) }}" method="post" class="d-inline">
                                             @csrf
                                             @method('delete')
-                                            <button type="button" class="btn btn-link" data-toggle="tooltip" data-placement="bottom" title="Delete Expense" onclick="confirm('Are you sure you want to remove this expense? The records that contain it will continue to exist.') ? this.parentElement.submit() : ''">
+                                            <button type="button" class="btn btn-link" data-toggle="tooltip" data-placement="bottom" title="Delete Complaint" onclick="confirm('Are you sure you want to remove this complaint? The records that contain it will continue to exist.') ? this.parentElement.submit() : ''">
                                                 <i class="tim-icons icon-simple-remove"></i>
                                             </button>
                                         </form>

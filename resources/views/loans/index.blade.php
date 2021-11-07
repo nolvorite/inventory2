@@ -1,4 +1,4 @@
-@extends('layouts.app', ['page' => 'Loans', 'pageSlug' => 'list', 'section' => 'loans'])
+@extends('layouts.app', ['page' => 'Loans', 'pageSlug' => 'list', 'section' => 'tracking'])
 
 @section('content')
     <div class="row">
@@ -23,6 +23,7 @@
                                 <th scope="col">ID</th>
                                 <th>Source Name</th>
                                 <th>Loan Amount</th>
+                                <th>Currently Paid</th>
                                 <th>Assigned Date</th>
                                 <th>Due Date</th>
                                 <th></th>
@@ -33,6 +34,7 @@
                                     <td>{{ $l->id }}</td>
                                     <td>{{ $l->loaner_name }}</td>
                                     <td>{{ $l->loan_amount }}</td>
+                                    <td>{{ $l->currently_paid !== null ? $l->currently_paid : 0 }}</td>
                                     <td>{{ $l->assigned_date }}</td>
                                     <td>{{ $l->loan_due_date }}</td>
 

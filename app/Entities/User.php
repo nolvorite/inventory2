@@ -24,7 +24,7 @@ class User extends UserManagement
     ];
 
     public static function withDept(){
-        return (new static)->join('user_departments_users','user_departments_users.user_id','=','users.id')->where('department_id',env('MANAGER_DEPARTMENT_ID'))->orderByDesc('created_at')->get();
+        return (new static)->select(DB::Raw('*,users.id AS user_id'))->join('user_departments_users','user_departments_users.user_id','=','users.id')->where('department_id',env('MANAGER_DEPARTMENT_ID'))->orderByDesc('created_at')->get();
     }
 
     public static function withCustomers(){

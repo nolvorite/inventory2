@@ -26,6 +26,7 @@ class Gift extends Model
             employee.name AS employee_name,
             gifts.id AS gift_id
         '))
+        ->leftJoin("users as deliverer","gifts.assigned_to_id","=","deliverer.id")
         ->leftJoin("users as customer","gifts.customer_id","=","customer.id")
         ->leftJoin("users as employee","gifts.employee_id","=","employee.id");
 

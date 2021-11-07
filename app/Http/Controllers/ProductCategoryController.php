@@ -58,6 +58,14 @@ class ProductCategoryController extends Controller
 
         $dataToSubmit = (array) $request->all();
 
+        if(
+            $request->name === null 
+        ){
+            return redirect()
+            ->route('categories.create')
+            ->withStatus('Some fields were left empty. Make sure all necessary fields have input.');
+        }
+
         $dataToSubmit['product_status'] = $dataToSubmit['product_status'] === 'active' ? 'active' : 'inactive';
 
         $category->create($dataToSubmit);

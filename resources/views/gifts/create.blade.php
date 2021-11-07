@@ -1,4 +1,4 @@
-@extends('layouts.app', ['page' => 'Add New Gift Record', 'pageSlug' => 'list', 'section' => 'gifts'])
+@extends('layouts.app', ['page' => 'Add New Gift Record', 'pageSlug' => 'list', 'section' => 'expenses'])
 @section('content')
 <form method="post" action="{{ route('gifts.store') }}" autocomplete="off">
                             @csrf
@@ -40,6 +40,28 @@
         ]
     ])
 
+
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" type="radio" name="employee_company_selector" checked value="DSR">
+      <label class="form-check-label" for="inlineRadio1">DSR</label>
+    </div>
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" type="radio" name="employee_company_selector" value="BP">
+      <label class="form-check-label" for="inlineRadio2">BP</label>
+    </div>
+
+    @include('bst', [
+        'type' => 'select',
+
+        'settings' => [
+            'label' => 'Select Employee',
+            'id' => 'assigned_to_id',
+            'data' => $employees,
+            'valueCol' => 'user_id',
+            'displayCol' => 'name'
+        ]
+    ])
+
     @include('bst', [
         'type' => 'input',
 
@@ -66,15 +88,47 @@
 	
 	<script type="text/javascript">
         $(document).ready(function(){
+        
+           $(".datetimed").datetimepicker({timepicker:false});
+
+        })
+
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function(){
             $('.form-select').each(function(e){
                 var properties = {
                     select: $(this)[0]
                 }
+
+                if($(this).is("[name=assigned_to_id]")){
+
+                    var optionData = [];
+
+                    $(this).find("option").each(function(){
+
+                        optionData.push({innerHTML: $(this).html() + " <span class='d-none'>" + $(this).attr('company_desc')+"</span>", text: $(this).text(), value: $(this).attr('value')});
+
+                    });
+
+                    properties.data = optionData;
+
+                    properties.valuesUseText = false;
+
+                    properties.afterOpen = function(){
+
+                        select.search($("input[name=employee_company_selector]:checked").val());
+
+                    };
+
+                }
+
+                console.log(properties);
+
                 var select = new SlimSelect(properties);
 
             });
-           $(".datetimed").datetimepicker({timepicker:false});
-
         })
     </script>
 

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateExpensesTable extends Migration
+class CreateComplaintsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,11 @@ class CreateExpensesTable extends Migration
      */
     public function up()
     {
-        Schema::create('expenses', function (Blueprint $table) {
+        Schema::create('complaints', function (Blueprint $table) {
             $table->id();
-            $table->softDeletes();
             $table->timestamps();
-            $table->string('expense_type')->nullable();
-            $table->float('expense_amount');
-            $table->datetime('date_paid');
-            $table->integer('assigned_by_id');
+            $table->integer('user_id');
+            $table->mediumtext('complaint');
         });
     }
 
@@ -31,6 +28,6 @@ class CreateExpensesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('expenses');
+        Schema::dropIfExists('complaints');
     }
 }

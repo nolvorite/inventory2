@@ -17,7 +17,7 @@
 
 ?>
 
-@extends('layouts.app', ['page' => $pageName, 'pageSlug' => 'users', 'section' => 'inventory'])
+@extends('layouts.app', ['page' => $pageName, 'pageSlug' => 'users', 'section' => 'employees'])
 
 @section('content')
     <div class="row">

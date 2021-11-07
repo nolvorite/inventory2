@@ -1,5 +1,10 @@
 <?php
 
+function dated($date){
+
+    return Carbon::createFromFormat('Y-m-d H:i:s',$date)->format('d M Y');
+}
+
 function format_money($money)
 {
     if(!$money) {

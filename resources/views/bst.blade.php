@@ -9,8 +9,8 @@
             $defaultSelected = isset($settings['defaultSelected']) ? $settings['defaultSelected'] : null;
             $dataSet = $settings['data'];
             $liveData = [];
-            $valueCol = $settings['valueCol'];
-            $displayCol = $settings['displayCol'];
+            $valueCol = isset($settings['valueCol']) ? $settings['valueCol'] : 'value';
+            $displayCol = isset($settings['displayCol']) ? $settings['displayCol'] : 'display';
             $attributes = isset($settings['attributes']) ? " ".$settings['attributes'] : '';
 
             
@@ -19,7 +19,8 @@
                 $liveData[] = [
                 
                     'value' => $data[$valueCol],
-                    'display' => $data[$displayCol]
+                    'display' => $data[$displayCol],
+                    'optionAttr' => @$data['optionAttr']
 
                 ];
 
@@ -41,7 +42,7 @@
 
                     ?>
                     
-                    <option value='<?= $data['value'] ?>' <?= $disabledClause ?>><?= $data['display'] ?></option>
+                    <option <?= @$data['optionAttr'] ?> value='<?= $data['value'] ?>' <?= $disabledClause ?>><?= $data['display'] ?></option>
 
                     <?php endforeach; ?>
              
@@ -49,6 +50,26 @@
             </div>
 
             <?php
+
+        break;
+
+        case "textarea":
+
+            $value = isset($settings['value']) ? $settings['value'] : '';
+            $label = $settings['label'];
+            $id = $settings['id'];
+            $placeholder = @$settings['placeholder'];
+            $classes = isset($settings['classes']) ? " ".$settings['classes'] : '';
+            $attributes = isset($settings['attributes']) ? " ".$settings['attributes'] : '';
+
+        ?>
+
+        <div class="form-group<?= $errors !== null && @$errors->has($id) ? ' has-danger' : '' ?>">
+            <label class="form-control-label" for="<?= $id ?>"><?= $label ?></label>
+            <textarea class='form-control{{ $classes }}' name='<?= $id ?>' value='' placeholder='<?= $placeholder ?>'{{ $attributes }}>{{ old($id,$value) }}</textarea>
+        </div>
+
+        <?php
 
         break;
 

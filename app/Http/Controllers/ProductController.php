@@ -20,7 +20,7 @@ class ProductController extends Controller
      */
 
     public function __construct(){
-        $this->categories = ProductCategory::select(DB::Raw('*, CONCAT("[",UPPER(company_name),"] ", name," (",product_status,")") AS name '));
+        $this->categories = ProductCategory::select(DB::Raw('*, CONCAT("", name,"") AS name '))->where('product_status','active');
     }
 
     public function switch_status(){
@@ -56,6 +56,8 @@ class ProductController extends Controller
             }
         }
 
+        
+
         if(request()->get('category_id') !== null){
             $categoryId = request()->get('category_id');
             $products = $products->where('product_category_id',$categoryId);
@@ -65,7 +67,7 @@ class ProductController extends Controller
 
         $products = $products->map(function($product){
 
-            $product->buying_date = Carbon::createFromFormat('Y-m-d H:i:s',$product->buying_date)->format('Y-M-d');
+            $product->buying_date = Carbon::createFromFormat('Y-m-d H:i:s',$product->buying_date)->format('d-M-Y');
 
             return $product;
 
@@ -97,10 +99,18 @@ class ProductController extends Controller
      * @param  App\Product  $model
      * @return \Illuminate\Http\Response
      */
-    public function store(ProductRequest $request, Product $model)
+    public function store(Request $request, Product $model)
     {
 
         $dataToSubmit = (array) $request->all();
+
+        if(
+            $request->name === null 
+        ){
+            return redirect()
+            ->route('categories.create')
+            ->withStatus('Some fields were left empty. Make sure all necessary fields have input.');
+        }
 
         $dataToSubmit['company_name'] = $dataToSubmit['company_name'] === 'robi' ? 'robi' : 'airtel';
 
@@ -128,6 +138,12 @@ class ProductController extends Controller
     public function edit(Product $product)
     {
         $categories = $this->categories->get();
+
+        $product->buying_date = Carbon::createFromFormat('Y-m-d H:i:s',$product->buying_date)->format('d M Y');
+
+        $product->buying_price = number_format($product->buying_price,2);
+
+        $product->selling_price = number_format($product->selling_price,2);
 
         return view('inventory.products.edit', compact('product', 'categories'));
     }

@@ -18,7 +18,7 @@ class ProfileController extends Controller
 
 
         if(request()->wantsJson()){
-            return response()->json(auth()->user()->toArray());
+            return response()->json(\Auth::user());
         }
 
         return view('profile.edit');

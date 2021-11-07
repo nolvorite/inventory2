@@ -7,6 +7,9 @@ use App\LoanPayment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
+
+use Carbon\Carbon;
+
 class LoansController extends Controller
 {
     /**
@@ -16,13 +19,23 @@ class LoansController extends Controller
      */
     public function index()
     {
-        $loans = Loan::where('type', 'normal')->get();
+        $loans = Loan::select(DB::Raw('*,(SELECT SUM(payment_amount) FROM loan_payments WHERE loan_payments.loan_id = loans.id) AS currently_paid'))->where('type', 'normal')->get();
+
+        $loans = $loans->map(function($loan){
+
+            $loan->assigned_date = dated($loan->assigned_date);
+            $loan->loan_due_date = dated($loan->loan_due_date);
+
+            return $loan;
+        });
+
+
         return view('loans.index', compact('loans'));
     }
 
     public function index_d()
     {
-        $loans = Loan::where('type', 'due')->get();
+        $loans = Loan::where(['type' => 'due'])->get();
         return view('loans.due', compact('loans'));
     }
 
@@ -36,6 +49,11 @@ class LoansController extends Controller
         return view('loans.create');
     }
 
+    public function create_due()
+    {
+        return view('loans.new_due');
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -44,6 +62,21 @@ class LoansController extends Controller
      */
     public function store(Request $request)
     {
+
+        if(
+            $request->loaner_name === null ||
+            $request->loan_amount === null ||
+            $request->assigned_date === null ||
+            $request->loan_due_date === null
+        ){
+            return redirect()
+            ->route('loans.create')
+            ->withStatus('Some fields were left empty. Make sure all necessary fields have input.');
+        }
+
+
+        
+
        try {
 
             $newId = Loan::create([
@@ -51,7 +84,8 @@ class LoansController extends Controller
                 'loaner_name' => $request->loaner_name,
                 'loan_amount' => $request->loan_amount,
                 'assigned_date' => $request->assigned_date,
-                'loan_due_date' => $request->loan_due_date
+                'loan_due_date' => $request->loan_due_date,
+                'type' => $request->type
             ])->id;
 
         }catch(\Exception $e){
@@ -90,6 +124,11 @@ class LoansController extends Controller
 
             ->where('id',$id)->first();
         $payments = LoanPayment::fromId($id);
+
+
+
+        $loan->assigned_date = Carbon::createFromFormat('Y-m-d H:i:s',$loan->assigned_date)->format('d M Y');
+        $loan->loan_due_date = Carbon::createFromFormat('Y-m-d H:i:s',$loan->loan_due_date)->format('d M Y');
 
         return view('loans.edit', compact('loan', 'payments'));
     }

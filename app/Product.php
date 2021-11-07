@@ -15,7 +15,7 @@ class Product extends Model
     ];
 
     public static function catJoin(){
-        return (new static)::select(DB::Raw('*,product_categories.name as product_name, products.id AS product_id'))->join("product_categories","product_category_id","=","product_categories.id");
+        return (new static)::select(DB::Raw('*,products.company_name as company_name, product_categories.name as product_name, products.id AS product_id'))->join("product_categories","product_category_id","=","product_categories.id");
     }
 
     public function category()
