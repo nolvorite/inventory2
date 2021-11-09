@@ -156,6 +156,8 @@ class UsersController extends Controller
             $data['password'] = $request->password;
         }
 
+        dd($request->all());
+
         $user = $this->userRepository->store($data);
     
         $roles       = $request->roles       ?? [];
