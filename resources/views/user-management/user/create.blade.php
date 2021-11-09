@@ -1,7 +1,7 @@
 
 
 <?php
-    $registrationType = preg_match("#customer#",Request::url()) ? 'customer' : 'employee';
+    $registrationType = preg_match("#customer#",request()->url()) ? 'customer' : 'employee';
     $employeeTypeValue = old('employee_type');
 
     $errorMessage = '';
