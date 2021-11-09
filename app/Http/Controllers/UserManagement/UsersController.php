@@ -166,8 +166,6 @@ class UsersController extends Controller
         $this->roleRepository->setRoleToMember($user, $roles);
         $this->departmentRepository->attachDepartment($user, $departments);
 
-
-
         $route = $departments[0].'' === env('MANAGER_DEPARTMENT_ID').'' ? 'index_e' : 'index_c';
 
         return redirect()->route('admin.user_management.user.'.$route)->with('message',[

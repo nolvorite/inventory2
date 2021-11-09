@@ -23,17 +23,18 @@
                                 <th scope="col">ID</th>
                                 <th>Assignee</th>
                                 <th>Assigned Product</th>
-                                <th>Return Status</th>
+                                <th>Quantity</th>
+                 
                                 <th></th>
                             </thead>
                             <tbody>
                                 @foreach($assignments as $a)
                                 <tr>
                                     <td>{{ $a->assignment_id }}</td>
-                                    <td>{{ $a->email }}</td>
-                                    <td>{{ $a->product_label }}</td>
-                                    <td>{{ $a->return_status }}</td>
-
+                                    <td>{{ $a->assignee_name }}</td>
+                                    <td>{{ $a->name }}</td>
+                                    <td>{{ $a->quantity }}</td>
+                 
                                     <td class="td-actions text-right">
                                         <!-- <a href="{{ route('assignments.show', $a) }}" class="btn btn-link" data-toggle="tooltip" data-placement="bottom" title="More Details">
                                             <i class="tim-icons icon-zoom-split"></i>

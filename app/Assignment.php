@@ -21,6 +21,7 @@ class Assignment extends Model
             product_categories.name AS name,
             assignments.*,
             assignee.email,
+            assignee.name AS assignee_name,
             assignee.id AS assignee_id,
             assigner.email,
             assigner.id AS assigner_id,

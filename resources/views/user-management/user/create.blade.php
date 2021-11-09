@@ -3,6 +3,15 @@
 <?php
     $registrationType = substr(Request::url(), strrpos(Request::url(), '/') + 1);
     $employeeTypeValue = old('employee_type');
+
+    $errorMessage = '';
+
+    if($errors !== null){
+        foreach($errors as $error){
+            $errorMessage =. $error . "<br>";
+        }
+    }
+
 ?>
 
 @section('content')
@@ -13,7 +22,7 @@
     @if(count($errors) > 0)
 
     <div class="alert alert-warning">
-        Some fields are missing input. Please make sure that all fields are filled out.
+        {{ $errorMessage }}
     </div>
 
     @endif
