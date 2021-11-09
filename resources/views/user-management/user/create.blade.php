@@ -8,7 +8,7 @@
 
     if($errors !== null){
         foreach($errors as $error){
-            $errorMessage =. $error . "<br>";
+            $errorMessage .= $error . "<br>";
         }
     }
 
