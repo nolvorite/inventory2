@@ -1,4 +1,4 @@
-@extends('layouts.app', ['page' => 'Create New User ', 'pageSlug' => 'users', 'section' => 'inventory'])
+
 
 <?php
     $registrationType = substr(Request::url(), strrpos(Request::url(), '/') + 1);
@@ -14,6 +14,8 @@
     }
 
 ?>
+
+@extends('layouts.app', ['page' => 'Create New ' . $registrationType, 'pageSlug' => 'users', 'section' => 'inventory'])
 
 @section('content')
 
