@@ -226,7 +226,7 @@ class AssignmentController extends Controller
      * @param  \App\Assignment  $assignment
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id,Assignment $assignment)
+    public function destroy(int $id)
     {
         try {
             Assignment::where('id', $id)->delete();

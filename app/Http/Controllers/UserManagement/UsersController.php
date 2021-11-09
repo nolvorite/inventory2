@@ -70,9 +70,26 @@ class UsersController extends Controller
      public function index_c()
     {
         // $users          = $this->userRepository->all();
-        $users = User::join('user_departments_users','user_departments_users.user_id','=','users.id')->where('department_id',env('CUSTOMER_DEPARTMENT_ID'))->orderByDesc('created_at')->get();
+
+
+        $criteria = ['department_id' => env('CUSTOMER_DEPARTMENT_ID')];
+
+        if(request()->wantsJson()){
+
+            $criteria['active_status'] = 'active';
+
+        }
+
+
+        $users = User::join('user_departments_users','user_departments_users.user_id','=','users.id')->where($criteria)->orderByDesc('created_at')->get();
 
         $isCustom = 'customers';
+
+        if(request()->wantsJson()){
+
+            return response()->json(compact('users'));
+
+        }
 
         return view('user-management.user.index', compact('users', 'isCustom'));
     }
@@ -149,7 +166,9 @@ class UsersController extends Controller
         $this->roleRepository->setRoleToMember($user, $roles);
         $this->departmentRepository->attachDepartment($user, $departments);
 
-        $route = $roles[0].'' === env('MANAGER_DEPARTMENT_ID').'' ? 'index_e' : 'index_c';
+
+
+        $route = $departments[0].'' === env('MANAGER_DEPARTMENT_ID').'' ? 'index_e' : 'index_c';
 
         return redirect()->route('admin.user_management.user.'.$route)->with('message',[
             'type'   => 'success',

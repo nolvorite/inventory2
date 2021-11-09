@@ -52,16 +52,28 @@ class ComplaintsController extends Controller
     {
         try {
 
-            $newId = Complaint::create([
+            $newComplaint = Complaint::create([
                 'user_id' => \Auth::id(),
                 'complaint' => $request->complaint
             ])->id;
 
         }catch(\Exception $e){
 
+            if($request->wantsJSON()){
+                return response()->json(['status' => false, 'message' => 'Failed to send request']);
+            }
+
             return redirect()
             ->route('complaints.index')
             ->withStatus('Failed to register complaint.');
+            
+        }
+
+        if($request->wantsJSON()){
+            return response()->json([
+                'status' => true, 
+                'message' => 'Successfully sent complaint!'
+            ]);
         }
 
         return redirect()

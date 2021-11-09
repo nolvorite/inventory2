@@ -22,6 +22,10 @@ Route::group(['middleware' => ['client_credentials', 'auth:api']], function(){
 
     Route::get('myComplains', [ 'uses' => 'ComplaintsController@index']);
 
+    Route::get('customerList', [ 'uses' => 'UserManagement\UsersController@index_c']);
+
+    Route::post('addComplain', [ 'uses' => 'ComplaintsController@store']);
+
     Route::group(['middleware' => 'role:employee'], function(){
 
         Route::get('/addSale', 'UsersController@show');

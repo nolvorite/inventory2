@@ -27,6 +27,7 @@
                             'id' => 'expense_type',
                             'valueCol' => 'value',
                             'displayCol' => 'display',
+                            'selectValue' => '',
                             'data' => [
                                 ['value' => 'transport' , 'display' => 'Transport'],
                                 ['value' => 'fuel' , 'display' => 'Fuel'],
@@ -42,7 +43,7 @@
                             'label' => 'Expense Amount',
                             'id' => 'expense_amount',
                             'type' => 'number',
-                            'placeholder' => 'Expense Amount Here...'
+                            'placeholder' => 'Expense Amount'
                         ]
                     ])
 
