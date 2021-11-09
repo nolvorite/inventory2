@@ -156,12 +156,10 @@ class UsersController extends Controller
             $data['password'] = $request->password;
         }
 
-        dd($request->all());
-
         $user = $this->userRepository->store($data);
     
-        $roles       = $request->roles       ?? [];
-        $departments = $request->departments ?? [];
+        $roles       = [];
+        $departments =  [$request->department_id];
         
         $this->roleRepository->setRoleToMember($user, $roles);
         $this->departmentRepository->attachDepartment($user, $departments);

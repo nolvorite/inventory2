@@ -51,8 +51,7 @@ class StoreUser extends FormRequest
             'password'      => 'required|min:6',
             'roles'         => 'nullable|array',
             'roles.*'       => 'nullable|exists:'. $tableNames['roles']. ',name',
-            'departments'   => 'nullable|array',
-            'departments.*' => "nullable|exists:$departmentTable,id"
+            'department_id'   => 'required'
         ];
     }
 }

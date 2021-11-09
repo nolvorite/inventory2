@@ -1,7 +1,7 @@
 
 
 <?php
-    $registrationType = substr(Request::url(), strrpos(Request::url(), '/') + 1);
+    $registrationType = preg_match("#customer#",Request::url()) ? 'customer' : 'employee';
     $employeeTypeValue = old('employee_type');
 
     $errorMessage = '';
@@ -51,38 +51,12 @@
                             
                             @switch($registrationType)
 
-                            @case('employee')
-                            <select multiple class="form-control d-none" name="departments[]" id="guard_name">
-
-                                @forelse ($departments as $item)
-                                    <option value="{{ $item->id }}"{{ env('MANAGER_DEPARTMENT_ID')."" === $item->id."" ? ' selected' : '' }}>{{ $item->title }}</option>
-                                @empty
-                                    
-                                @endforelse
-                            </select>
-                            @break
-
                             @case('customer')
-                            <select multiple class="form-control d-none" name="departments[]" id="guard_name">
-         
-                                @forelse ($departments as $item)
-                                    <option value="{{ $item->id }}"{{ env('CUSTOMER_DEPARTMENT_ID')."" === $item->id."" ? ' selected' : '' }}>{{ $item->title }}</option>
-                                @empty
-                                    
-                                @endforelse
-                            </select>
+                                <input type='hidden' name='department_id' value='{{ env('CUSTOMER_DEPARTMENT_ID') }}'>
                             @break
 
-                            @default
-                            <label for="guard_name">Departments</label>
-                            <select multiple class="form-control" name="departments[]" id="guard_name">
-     
-                                @forelse ($departments as $item)
-                                    <option value="{{ $item->id }}">{{ $item->title }}</option>
-                                @empty
-                                    
-                                @endforelse
-                            </select>
+                            @case('employee')
+                                <input type='hidden' name='department_id' value='{{ env('MANAGER_DEPARTMENT_ID') }}'>
                             @break
 
                             @endswitch
