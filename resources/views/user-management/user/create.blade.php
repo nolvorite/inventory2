@@ -6,8 +6,9 @@
 
     $errorMessage = '';
 
-    if($errors !== null){
-        foreach($errors as $error){
+
+    if($errors->all() !== null){
+        foreach($errors->all() as $error){
             $errorMessage .= $error . "<br>";
         }
     }
