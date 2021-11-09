@@ -23,7 +23,7 @@
     @if(count($errors) > 0)
 
     <div class="alert alert-warning">
-        {{ $errorMessage }}
+        {!! $errorMessage !!}
     </div>
 
     @endif
