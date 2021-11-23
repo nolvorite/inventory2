@@ -1,5 +1,7 @@
 @extends('layouts.app', ['page' => 'Complaints', 'pageSlug' => 'complaints', 'section' => 'tracking'])
 
+
+
 @section('content')
 <div class="row">
         <div class="col-md-12">
@@ -7,11 +9,9 @@
                 <div class="card-header">
                     <div class="row">
                         <div class="col-8">
-                            <h4 class="card-title">Complaints</h4>
+                            <h4 class="card-title">Complaints {!! $pagination !!}</h4>
                         </div>
-                        <div class="col-4 text-right">
-                            <a href="{{ route('complaints.create') }}" class="btn btn-sm btn-primary">New Complaint</a>
-                        </div>
+                      
                     </div>
                 </div>
                 <div class="card-body">
@@ -20,15 +20,22 @@
                     <div class="">
                         <table class="table tablesorter " id="">
                             <thead class="text-primary">
-                                <th scope="col">ID</th>
+                                <th scope="col">#</th>
+                                <th scope="col">Shop Name</th>
                                 <th>Complaint</th>
-                                <th></th>
+                                <th>Reply</th>
                             </thead>
                             <tbody>
-                                @foreach($complaints as $c)
+                                @foreach($complaints as $i => $c)
+                                <?php
+                                    $complaint = (strlen($c->complaint) > 203) ? substr($c->complaint,0,200).'...' : $c->complaint;
+                                    $adminReply = (strlen($c->admin_reply) > 203) ? substr($c->admin_reply,0,200).'...' : $c->admin_reply;
+                                ?>
                                 <tr>
-                                    <td>{{ $c->id }}</td>
-                                    <td>{{ $c->complaint }}</td>
+                                    <td>{{ ($i+1) }}</td>
+                                    <td>{{ $c->shop_name }}<br>{{ $c->complainant }}</td>
+                                    <td><small>{{ $c->create_date }}</small><div style='width: 300px'>{{ $complaint }}</div></td>
+                                    <td><small>{{ $c->reply_date }}</small><div style='width: 300px'>{!! $c->admin_reply !== null ? $adminReply : '(no reply yet)' !!}</div></td>
                                     <td class="td-actions text-right">
                 
                                         <a href="{{ route('complaints.edit', ['complaint' => $c->id]) }}" class="btn btn-link" data-toggle="tooltip" data-placement="bottom" title="Edit Complaint">
@@ -53,4 +60,6 @@
         </div>
     </div>
 @endsection
-
+@push('js')
+    <style>nav{display: inline-block;margin-left: 10px}</style>
+@endpush

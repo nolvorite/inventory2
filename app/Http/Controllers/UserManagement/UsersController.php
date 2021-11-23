@@ -12,6 +12,8 @@ use App\Http\Middleware\StoreUser;
 use App\Http\Middleware\UpdateUser;
 use App\Entities\User;
 
+use Illuminate\Support\Facades\DB;
+
 class UsersController extends Controller
 {
     protected $userRepository;
@@ -81,13 +83,17 @@ class UsersController extends Controller
         }
 
 
-        $users = User::join('user_departments_users','user_departments_users.user_id','=','users.id')->where($criteria)->orderByDesc('created_at')->get();
+        $users = User::
+        select(DB::Raw('*'))->
+        join('user_departments_users','user_departments_users.user_id','=','users.id')->where($criteria)->orderByDesc('created_at')->get();
 
         $isCustom = 'customers';
 
         if(request()->wantsJson()){
 
-            return response()->json(compact('users'));
+            $customers = $users;
+
+            return response()->json(compact('customers'));
 
         }
 

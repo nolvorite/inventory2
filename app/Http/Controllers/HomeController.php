@@ -69,6 +69,27 @@ class HomeController extends Controller
         return $product;
     }
 
+    public function register_fcm(Request $request){
+
+
+        try {
+
+            DB::table('fcm_tokens')->insert([
+            'userid' => auth()->id(),
+            'token' => $request->token
+            ]);
+
+
+        }catch(\Exception $e){
+
+            return response()->json(['status' => false, 'message' => 'Failed to register new token.']);
+
+        }
+
+        return response()->json(['status' => true, 'message' => 'Successfully registered new token.']);
+
+    }
+
     public function getTotalLoans(){
        $loan = Loan::select(DB::Raw('SUM(loan_amount) as total'))->where('type','normal')
 

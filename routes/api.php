@@ -22,13 +22,25 @@ Route::group(['middleware' => ['client_credentials', 'auth:api']], function(){
 
     Route::get('myComplains', [ 'uses' => 'ComplaintsController@index']);
 
-    Route::get('customerList', [ 'uses' => 'UserManagement\UsersController@index_c']);
+
+    Route::post('registerFCMToken', [ 'uses' => 'HomeController@register_fcm']);
+    
 
     Route::post('addComplain', [ 'uses' => 'ComplaintsController@store']);
 
+    Route::get('buyOfDay', [ 'uses' => 'AssignmentController@fetch_day']);
+
+    Route::get('buyOfMonth', [ 'uses' => 'AssignmentController@fetch_month']);
+
     Route::group(['middleware' => 'role:employee'], function(){
 
-        Route::get('/addSale', 'UsersController@show');
+        Route::get('customerList', [ 'uses' => 'UserManagement\UsersController@index_c']);
+
+        Route::post('/addSale', 'AssignmentController@store');
+        Route::get('/returnProduct', 'ProductController@index');
+
+        Route::post('/addDue', 'LoanPaymentsController@store');
+
         Route::get('/returnProduct', 'ProductController@index');
 
     });
@@ -36,6 +48,8 @@ Route::group(['middleware' => ['client_credentials', 'auth:api']], function(){
     Route::group(['middleware' => 'role:admin'], function(){
 
         Route::group(['namespace' => '\App\Http\Controllers\UserManagement'], function(){
+
+            Route::get('customerList', [ 'uses' => 'UsersController@index_c']);
 
             Route::get('/employeeProfile/{id}', 'UsersController@show');
             Route::get('/customerProfile/{id}', 'UsersController@show');

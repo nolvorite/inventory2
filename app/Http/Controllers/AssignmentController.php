@@ -26,6 +26,15 @@ class AssignmentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function fetch_day(){
+
+    }
+
+    public function fetch_month(){
+        
+    }
+
     public function index(Request $request)
     {
 
@@ -139,9 +148,21 @@ class AssignmentController extends Controller
 
         }catch(\Exception $e){
 
+            if($request->wantsJson()){
+
+                return response()->json(['message' => 'Failed to insert new data.', 'status' => false]);
+
+            }
+
             return redirect()
             ->route('assignments.index')
             ->withStatus('Failed to register assignment.');
+
+        }
+
+        if($request->wantsJson()){
+
+            return response()->json(['message' => 'Successfully added new product assignment.', 'status' => true]);
 
         }
 

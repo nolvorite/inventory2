@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Sale extends Model
 {
     protected $fillable = [
-        'client_id', 'user_id'
+        'client_id', 'user_id', 'productid', 'soldquantity', 'soldprice', 'date', 'assignmentid', 'customername'
     ];
     public function client() {
         return $this->belongsTo('App\Client');
