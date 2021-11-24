@@ -79,13 +79,27 @@ class UsersController extends Controller
         if(request()->wantsJson()){
 
             $criteria['active_status'] = 'active';
+            $criteria['assigned_by_id'] = auth()->id();
+
+            $users = User::
+            select(DB::Raw('*'))
+            ->join('user_departments_users','user_departments_users.user_id','=','users.id')
+            ->join('assignments', 'assignments.assigned_to_id','=','users.id')
+
+            ->where($criteria)->orderByDesc('created_at')->get();
+
+
+
+        }else{
+
+            $users = User::
+            select(DB::Raw('*'))->
+            join('user_departments_users','user_departments_users.user_id','=','users.id')->where($criteria)->orderByDesc('created_at')->get();
 
         }
 
 
-        $users = User::
-        select(DB::Raw('*'))->
-        join('user_departments_users','user_departments_users.user_id','=','users.id')->where($criteria)->orderByDesc('created_at')->get();
+        
 
         $isCustom = 'customers';
 

@@ -28,15 +28,17 @@ Route::group(['middleware' => ['client_credentials', 'auth:api']], function(){
 
     Route::post('addComplain', [ 'uses' => 'ComplaintsController@store']);
 
-    Route::get('buyOfDay', [ 'uses' => 'AssignmentController@fetch_day']);
+    Route::get('saleOfDay', [ 'uses' => 'SaleController@indexD']);
 
-    Route::get('buyOfMonth', [ 'uses' => 'AssignmentController@fetch_month']);
+    Route::get('buyOfDay', [ 'uses' => 'SaleController@indexBuy1']);
+
+    Route::get('buyOfMonth', [ 'uses' => 'SaleController@indexBuy2']);
 
     Route::group(['middleware' => 'role:employee'], function(){
 
         Route::get('customerList', [ 'uses' => 'UserManagement\UsersController@index_c']);
 
-        Route::post('/addSale', 'AssignmentController@store');
+        Route::post('/addSale', 'SaleController@store');
         Route::get('/returnProduct', 'ProductController@index');
 
         Route::post('/addDue', 'LoanPaymentsController@store');

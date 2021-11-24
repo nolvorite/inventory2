@@ -10,6 +10,7 @@ use App\SoldProduct;
 use App\Transaction;
 use App\PaymentMethod;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class SaleController extends Controller
 {
@@ -25,6 +26,84 @@ class SaleController extends Controller
         return view('sales.index', compact('sales'));
 
     }
+
+    public function indexBuy2(Request $request)
+    {
+
+        DB::enableQueryLog();
+
+        $request->month = $request->month !== null ? $request->month : date("m")."";
+        $request->year = $request->year !== null ? $request->year : date("Y")."";
+
+        $sales = Sale::
+
+        where(DB::Raw('MONTH(date)'),(intval($request->month))."")->
+        where(DB::Raw('YEAR(date)'),(intval($request->year))."")->
+        where('client_id',auth()->id())->
+
+        latest()->get();
+
+        if($request->wantsJson()){
+            return response()->json(compact('sales'));
+        }
+
+        return view('sales.index', compact('sales'));
+
+    }
+
+    public function indexBuy1(Request $request)
+    {
+
+        DB::enableQueryLog();
+
+        $request->day = $request->day !== null ? $request->day : date("d")."";
+        $request->month = $request->month !== null ? $request->month : date("m")."";
+        $request->year = $request->year !== null ? $request->year : date("Y")."";
+
+        $sales = Sale::
+
+        where(DB::Raw('DAY(created_at)'),(intval($request->day))."")->
+        where(DB::Raw('MONTH(created_at)'),(intval($request->month))."")->
+        where(DB::Raw('YEAR(created_at)'),(intval($request->year))."")->
+        where('client_id',auth()->id())->
+
+        latest()->get();
+
+        if($request->wantsJson()){
+            return response()->json(compact('sales'));
+        }
+
+        return view('sales.index', compact('sales'));
+
+    }
+
+    public function indexD(Request $request)
+    {
+
+        DB::enableQueryLog();
+
+        $request->day = $request->day !== null ? $request->day : date("d")."";
+        $request->month = $request->month !== null ? $request->month : date("m")."";
+        $request->year = $request->year !== null ? $request->year : date("Y")."";
+
+        $sales = Sale::
+
+        where(DB::Raw('DAY(created_at)'),(intval($request->day))."")->
+        where(DB::Raw('MONTH(created_at)'),(intval($request->month))."")->
+        where(DB::Raw('YEAR(created_at)'),(intval($request->year))."")->
+        where('user_id',auth()->id())->
+
+        latest()->get();
+
+        if($request->wantsJson()){
+            return response()->json(compact('sales'));
+        }
+
+        return view('sales.index', compact('sales'));
+
+    }
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -48,16 +127,26 @@ class SaleController extends Controller
     {
 
         $dataToSubmit = $request->all();
-
+        $dataToSubmit['user_id'] = auth()->id();
         $dataToSubmit['client_id'] = $request->customerid;
+        $dataToSubmit['date'] = Carbon::createFromFormat('d-M-Y',$request->date)->format('Y-m-d H:i:s');
 
-        $sale = $model->create($dataToSubmit);
+        try {
+            $sale = $model->create($dataToSubmit);
+        }catch(\Exception $e){
+            return response()->json([
+                'status' => false,
+                'message' => 'Failed to register new sale. Reason: ' . $e->getMessage()
+            ]);
+        }
+
+        
 
         if($request->wantsJson()){
 
             return response()->json([
                 'status' => true,
-                'message' => 'Successfully created sale.';
+                'message' => 'Successfully created sale.'
             ]);
 
         }
